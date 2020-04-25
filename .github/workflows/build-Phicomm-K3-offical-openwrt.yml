@@ -50,8 +50,6 @@ env:
    DEVICE: openwrt-bcm53xx-phicomm-k3
    # SSH 连接Actions功能
    SSH_ACTIONS: false
-   # 上传固件目录
-   UPLOAD_FIRMWARE: true
    # 上传ROOTFS文件
    UPLOAD_ROOTFS: false
    # 临时文件名称
