@@ -50,8 +50,6 @@ env:
    DEVICE: openwrt-ramips-mt7621-d-team_newifi-d2
    # SSH 连接Actions功能
    SSH_ACTIONS: false
-   # 上传固件目录
-   UPLOAD_FIRMWARE: true
    # 上传ROOTFS文件
    UPLOAD_ROOTFS: true
    # 临时文件名称
