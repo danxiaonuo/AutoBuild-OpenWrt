@@ -51,8 +51,6 @@ env:
    DEVICE: openwrt-ramips-mt7621-d-team_newifi-d2
    # SSH 连接Actions功能
    SSH_ACTIONS: false
-   # 上传bin目录
-   UPLOAD_BIN_DIR: false
    # 上传固件目录
    UPLOAD_FIRMWARE: true
  
@@ -143,6 +141,22 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
         echo "::set-output name=status::success"
+      
+    # 组织包文件  
+    - name: 组织包文件
+      if: steps.compile.outputs.status == 'success'
+      run: |
+        cd openwrt/bin
+        mkdir -p targets/$TARGET/$SUBTARGET/pre-snapshots/snapshots
+        mkdir -p targets/$TARGET/$SUBTARGET/pre-snapshots/snapshots/targets/$TARGET/$SUBTARGET
+        cp -r packages targets/$TARGET/$SUBTARGET/pre-snapshots/snapshots
+        cp -r targets/$TARGET/$SUBTARGET/packages targets/$TARGET/$SUBTARGET/pre-snapshots/snapshots/targets/$TARGET/$SUBTARGET
+        zip -q -r targets/$TARGET/$SUBTARGET/packages.zip targets/$TARGET/$SUBTARGET/pre-snapshots/snapshots
+        mkdir -p targets/$TARGET/$SUBTARGET/pre-packages-server
+        cp -r ../../server targets/$TARGET/$SUBTARGET/pre-packages-server
+        cd targets/$TARGET/$SUBTARGET
+        cp -r pre-snapshots/snapshots pre-packages-server/server/web
+        zip -q -r packages-server.zip pre-packages-server/server
     
     # 上传Config配置文件
     - name: 上传Config配置文件
@@ -155,10 +169,18 @@ jobs:
     # 上传Packages文件夹
     - name: 上传Packages文件夹
       uses: actions/upload-artifact@master
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      if: steps.compile.outputs.status == 'success'
       with:
         name: packages
-        path: openwrt/bin/packages
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/pre-snapshots
+    
+    # 上传Packages-Server
+    - name: 上传Packages-Server
+      uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success'
+      with:
+        name: packages-server
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/pre-packages-server
     
     # 上传Packages的软件列表
     - name: 上传Packages的软件列表
@@ -189,17 +211,8 @@ jobs:
       if: steps.compile.outputs.status == 'success'
       with:
         name: sha256sums
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/sha256sums
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ steps.date.outputs.date }}_${{ env.DEVICE }}.sha256sums
     
-    # 压缩文件包
-    - name: 压缩文件包
-      id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
-      run: |
-        cd openwrt/bin/targets/*/*
-        rm -rf packages
-        echo "::set-env name=FIRMWARE::$PWD"
-        echo "::set-output name=status::success"
     
     # 上传固件
     - name: 上传固件
