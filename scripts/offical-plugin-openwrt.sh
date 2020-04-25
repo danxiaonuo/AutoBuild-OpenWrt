@@ -18,6 +18,4 @@ git clone https://github.com/lwz322/k3screenctrl_build.git package/k3/k3screenct
 # 修改 dnsmasq 为 dnsmasq-full
 sed -i 's/dnsmasq i/dnsmasq-full i/g' include/target.mk
 # 删除 upx
-cp ../scripts/remove-upx.sh .
-chmod +x ./remove-upx.sh
-./remove-upx.sh || true
+cp ../scripts/remove-upx.sh . && chmod +x ./remove-upx.sh && ./remove-upx.sh || true
