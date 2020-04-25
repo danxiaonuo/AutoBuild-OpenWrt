@@ -1,5 +1,5 @@
 # 增加自定义配置
-svn co 
+svn co https://github.com/danxiaonuo/AutoBuild-OpenWrt/trunk/master/server/default-settings package/danxiaonuo/default-settings
 # 增加IPV6
 curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/etc/99-ipv6 > package/base-files/files/etc/hotplug.d/99-ipv6
 sed -i '/exit 0/i\mv /etc/hotplug.d/99-ipv6 /etc/hotplug.d/iface/99-ipv6' package/lean/default-settings/files/zzz-default-settings
