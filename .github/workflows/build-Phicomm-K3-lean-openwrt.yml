@@ -169,7 +169,7 @@ jobs:
       run: |
         cd openwrt/bin/targets/$TARGET/$SUBTARGET
         mv sha256sums sha256sums.orig
-        sha256sum *.bin > sha256sums
+        sha256sum *.trx > sha256sums
         
     # 上传Config配置文件
     - name: 上传Config配置文件
