@@ -19,7 +19,7 @@ on:
       - master
     # 路径
     paths:
-      - 'config/x86_64-lean-openwrt.config'
+      - 'config/X86_64-openwrt.config'
   # 每周三的晚上3点钟编译
   schedule:
      - cron: '0 3 * * 3'
@@ -36,7 +36,7 @@ env:
    # 自定义feeds.conf.default文件名
    #FEEDS_CONF: feeds.conf.default
    # 自定义.config文件名
-   CONFIG_FILE: config/x86_64-lean-openwrt.config
+   CONFIG_FILE: config/X86_64-openwrt.config
    # 自定义执行脚本名称
    #DIY_SH: scripts/lean-openwrt.sh
    DIY_P1_SH: scripts/lean-extra-openwrt.sh
