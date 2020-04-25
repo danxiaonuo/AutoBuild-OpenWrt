@@ -19,6 +19,19 @@ uci set system.@system[0].zonename=Asia/Shanghai
 uci set system.@system[0].hostname=danxiaonuo
 uci commit system
 
+# 设置默认管理IP地址
+uci set network.lan.ipaddr='10.8.1.1'
+uci set network.lan.netmask='255.255.255.0'
+uci set network.lan.delegate='0'
+uci set network.wan.delegate='0'
+uci commit network
+
+# 默认开启网络加速
+uci set flowoffload.@flow[0]=flow
+uci set flowoffload.@flow[0].bbr=1
+#uci set flowoffload.@flow[0].dns=1
+uci commit flowoffload
+
 uci set fstab.@global[0].anon_mount=1
 uci commit fstab
 
