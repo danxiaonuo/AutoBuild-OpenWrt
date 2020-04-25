@@ -11,7 +11,6 @@
 
 版本为 Project 为基于 [Project-OpenWrt 源码](https://github.com/project-openwrt/openwrt/tree/18.06-kernel5.4) 18.06-kernel5.4 分支编译的固件，目前在仍处于测试阶段 (Luci 采用 Lean 版 Luci 18.06 )。
 
-树莓派 2B 的固件通用于树莓派 2B、3B、3B+、4B，但板载无线功能可能不可用。
 
 **请不要直接 Fork 此项目**，如果你想使用本项目编译 OpenWrt 固件，请前往：
 
