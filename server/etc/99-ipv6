@@ -1,0 +1,6 @@
+if [ -n "`ip -6 route show default|grep from -m 1`" ];then
+    logger -t "IPV6" change default gateway without from source
+    DEFAULT=`ip -6 route show default|grep from -m 1`
+    ip -6 route del ${DEFAULT}
+    ip -6 route add `echo ${DEFAULT}|sed -e 's/from [^ ]* //'`
+fi
