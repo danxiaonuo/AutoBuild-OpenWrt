@@ -177,7 +177,7 @@ jobs:
       if: steps.compile.outputs.status == 'success'
       with:
         name: ${{ steps.date.outputs.date }}_${{ env.DEVICE }}.config.seed
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}.config.seed
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/config.seed
     
     # 上传Packages文件夹
     - name: 上传Packages文件夹
@@ -240,7 +240,7 @@ jobs:
       if: steps.compile.outputs.status == 'success'
       with:
         name: ${{ steps.date.outputs.date }}_${{ env.DEVICE }}.sha256sums
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}.sha256sums
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/sha256sums
     
     # 上传文件到Tmp.Link 
     - name: 上传文件到Tmp.Link 
