@@ -1,1 +1,28 @@
+#=================================================
+# https://github.com/danxiaonuo/AutoBuild-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: danxiaonuo
+# Blog: https://www.danxiaonuo.com
+#=================================================
 
+# 编译的名称
+name: 编译x86_64 Lean's的OpenWrt固件
+
+on: 
+  # 发布类型为published
+  release:
+    types: [published]
+  # 上传为master版本
+  push:
+    branches: 
+      - master
+    # 路径
+    paths:
+      - 'config/x86_64-lean-openwrt.config'
+  # 每周三的晚上3点钟编译
+  schedule:
+     - cron: '0 3 * * 3'
+  # 点击★开始触发编译固件
+  watch:  
+     types: started
