@@ -1,4 +1,3 @@
-
 # 增加 lienol passwall
 echo "src-git lienol https://github.com/chenshuo890/lienol-openwrt-package.git" >> feeds.conf.default
 
@@ -55,3 +54,9 @@ git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/danx
 
 # Rclone-OpenWrt
 # git clone https://github.com/ElonH/Rclone-OpenWrt.git package/danxiaonuo/Rclone-OpenWrt
+
+# k3设置
+rm -rf package/lean/k3screenctrl
+git clone https://github.com/lwz322/luci-app-k3screenctrl.git package/k3/luci-app-k3screenctrl
+git clone https://github.com/lwz322/k3screenctrl.git package/k3/k3screenctrl
+git clone https://github.com/lwz322/k3screenctrl_build.git package/k3/k3screenctrl_build
