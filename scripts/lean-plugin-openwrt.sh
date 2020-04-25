@@ -14,7 +14,7 @@ svn co https://github.com/project-openwrt/openwrt/trunk/package/ntlf9t/luci-app-
 #git clone https://github.com/ujincn/luci-app-smartdns-compat.git package/danxiaonuo/luci-app-smartdns-compat
 #git clone https://github.com/pymumu/openwrt-smartdns.git package/danxiaonuo/smartdns
 #git clone --branch lede https://github.com/pymumu/luci-app-smartdns.git package/danxiaonuo/luci-app-smartdns
-#svn co https://github.com/kenzok8/openwrt-packages/tree/master/luci-app-smartdns package/danxiaonuo/luci-app-smartdns
+#svn co https://github.com/kenzok8/openwrt-packages/tree/luci-app-smartdns package/danxiaonuo/luci-app-smartdns
 
 # 复杂的AdGuardHome的openwrt的luci界面
 git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/danxiaonuo/luci-app-adguardhome
