@@ -24,7 +24,13 @@ uci set network.lan.ipaddr='10.8.1.1'
 uci set network.lan.netmask='255.255.255.0'
 uci set network.lan.delegate='0'
 uci set network.wan.delegate='0'
+# IPV6设置
+uci set network.globals.ula_prefix="ddaa:6666:8888::/48"
+uci set network.lan.ip6assign='64'
 uci commit network
+#sed -i 's/option ip6assign '.*'/option ip6assign '64'/g' /etc/config/network
+# 增加IPV6防火墙
+echo "ip6tables -t nat -I POSTROUTING -s $(uci get network.globals.ula_prefix) -j MASQUERADE" >> /etc/firewall.user
 
 # 默认开启网络加速
 uci set flowoffload.@flow[0]=flow
@@ -34,13 +40,6 @@ uci commit flowoffload
 
 uci set fstab.@global[0].anon_mount=1
 uci commit fstab
-
-# IPV6设置
-uci set network.globals.ula_prefix="ddaa:6666:8888::/48"
-uci commit network
-sed -i 's/option ip6assign '.*'/option ip6assign '64'/g' /etc/config/network
-# 增加IPV6防火墙
-echo "ip6tables -t nat -I POSTROUTING -s $(uci get network.globals.ula_prefix) -j MASQUERADE" >> /etc/firewall.user
 
 # 增加 SSID 2.5G
 sed -i '/channel="11"/a\\t\tssid="danxiaonuo-2HZ"' package/kernel/mac80211/files/lib/wifi/mac80211.sh
