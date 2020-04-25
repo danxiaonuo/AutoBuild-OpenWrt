@@ -1,11 +1,11 @@
 
+# 增加 lienol passwall
+echo "src-git lienol https://github.com/chenshuo890/lienol-openwrt-package.git" >> feeds.conf.default
+
 # 更改默认主题为Argon
 rm -rf package/lean/luci-theme-argon
 sed -i '/uci commit luci/i\uci set luci.main.mediaurlbase="/luci-static/argon"' package/lean/default-settings/files/zzz-default-settings
 git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
-
-#增加 lienol passwall
-echo "src-git lienol https://github.com/chenshuo890/lienol-openwrt-package.git" >> feeds.conf.default
 
 # smartdns
 svn co https://github.com/pymumu/smartdns/trunk/package/openwrt package/danxiaonuo/smartdns
