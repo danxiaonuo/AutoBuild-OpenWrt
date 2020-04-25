@@ -41,20 +41,18 @@ env:
    #DIY_SH: scripts/lean-openwrt.sh
    DIY_P1_SH: scripts/common-extra-openwrt.sh
    DIY_P2_SH: scripts/lean-plugin-openwrt.sh
-   # 下载文件URL
-   DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
    # 时区设置
    TZ: Asia/Shanghai
    # 固件标签
-   TARGET: mt7621
+   TARGET: ramips
    # 固件版本
-   SUBTARGET: newifi-d2
+   SUBTARGET: mt7621
    # 固件名称
-   DEVICE: Newifi_D2
+   DEVICE: openwrt-ramips-mt7621-d-team_newifi-d2
    # SSH 连接Actions功能
    SSH_ACTIONS: false
    # 上传bin目录
-   #UPLOAD_BIN_DIR: false
+   UPLOAD_BIN_DIR: false
    # 上传固件目录
    UPLOAD_FIRMWARE: true
  
@@ -146,13 +144,52 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         echo "::set-output name=status::success"
     
-    # 上传bin目录
-    - name: 上传bin目录
+    # 上传Config配置文件
+    - name: 上传Config配置文件
+      uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success'
+      with:
+        name: config.seed
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ steps.date.outputs.date }}_${{ env.DEVICE }}.config.seed
+    
+    # 上传Packages文件夹
+    - name: 上传Packages文件夹
       uses: actions/upload-artifact@master
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: OpenWrt_bin
-        path: openwrt/bin
+        name: packages
+        path: openwrt/bin/packages
+    
+    # 上传Packages的软件列表
+    - name: 上传Packages的软件列表
+      uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}.manifest
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ steps.date.outputs.date }}_${{ env.DEVICE }}.manifest
+      
+    - name: 上传RootFS
+      uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-rootfs.tar.gz
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ steps.date.outputs.date }}_${{ env.DEVICE }}-rootfs.tar.gz
+     
+    # 上传Sysupgrade镜像文件   
+    - name: 上传Sysupgrade镜像文件
+      uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-squashfs-sysupgrade.bin
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ steps.date.outputs.date }}_${{ env.DEVICE }}-squashfs-sysupgrade.bin
+   
+    # 上传镜像Sha256sums
+    - name: 上传镜像Sha256sums
+      uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success'
+      with:
+        name: sha256sums
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/sha256sums
     
     # 压缩文件包
     - name: 压缩文件包
