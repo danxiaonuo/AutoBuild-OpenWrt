@@ -49,6 +49,7 @@ env:
    TARGET: x86
    # 固件版本
    SUBTARGET: 64
+   # 固件名称
    DEVICE: openwrt-x86-64
    # SSH 连接Actions功能
    SSH_ACTIONS: false
@@ -172,5 +173,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: ${{ steps.date.outputs.date }}_x86_64_OpenWrt
+        name: ${{ steps.date.outputs.date }}_${{ env.DEVICE }}
         path: ${{ env.FIRMWARE }}
