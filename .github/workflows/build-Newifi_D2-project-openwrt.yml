@@ -7,7 +7,7 @@
 #=================================================
 
 # 编译的名称
-name: 编译Newifi_D2 project's的OpenWrt固件
+name: 编译Newifi_D2 Project's的OpenWrt固件
 
 on: 
   # 发布类型为published
