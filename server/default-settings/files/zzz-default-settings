@@ -6,6 +6,7 @@ sed -i "s|root::0:0:99999:7:::|root:$password:0:0:99999:7:::|g" package/base-fil
 
 # 语言设置
 uci set luci.main.lang=zh_cn
+uci set luci.main.mediaurlbase="/luci-static/argon"
 uci commit luci
 
 # 设置主机名称
