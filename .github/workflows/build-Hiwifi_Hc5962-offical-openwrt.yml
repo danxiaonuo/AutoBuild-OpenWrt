@@ -47,7 +47,7 @@ env:
    # 固件版本
    SUBTARGET: mt7621
    # 固件名称
-   DEVICE: openwrt-ramips-mt7621-d-team_newifi-d2
+   DEVICE: openwrt-ramips-mt7621-hiwifi_hc5962
    # SSH 连接Actions功能
    SSH_ACTIONS: false
    # 上传固件目录
