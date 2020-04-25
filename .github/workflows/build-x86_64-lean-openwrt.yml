@@ -26,3 +26,28 @@ on:
   # 点击★开始触发编译固件
   watch:  
      types: started
+  
+# 环境变量
+env:
+   # 源码仓库地址
+   REPO_URL: https://github.com/coolsnowwolf/lede
+   # 源码分支
+   REPO_BRANCH: master
+   # 自定义feeds.conf.default文件名
+   #FEEDS_CONF: feeds.conf.default
+   # 自定义.config文件名
+   CONFIG_FILE: config/x86_64-lean-openwrt.config
+   # 自定义执行脚本名称
+   #DIY_SH: scripts/lean-openwrt.sh
+   DIY_P1_SH: scripts/lean-extra-openwrt.sh
+   DIY_P2_SH: scripts/lean-plugin-openwrt.sh
+   # 下载文件URL
+   DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
+   # 时区设置
+   TZ: Asia/Shanghai
+   # SSH 连接Actions功能
+   SSH_ACTIONS: false
+   # 上传固件到WeTransfer
+   UPLOAD_WETRANSFER: true
+   # 上传固件到奶牛快传
+   UPLOAD_COWTRANSFER: true
