@@ -39,7 +39,7 @@ env:
    CONFIG_FILE: config/Newifi_D2-lean-openwrt.config
    # 自定义执行脚本名称
    #DIY_SH: scripts/lean-openwrt.sh
-   DIY_P1_SH: scripts/lean-extra-openwrt.sh
+   DIY_P1_SH: scripts/common-extra-openwrt.sh
    DIY_P2_SH: scripts/lean-plugin-openwrt.sh
    # 下载文件URL
    DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
