@@ -34,6 +34,8 @@ sed -i '/set wireless.radio${devidx}.hwmode=11/a\\t\t\tset wireless.radio${devid
 sed -i '/set wireless.default_radio${devidx}.encryption=sae-mixed/a\\t\t\tset wireless.default_radio${devidx}.key=password\n\t\t\tset wireless.default_radio${devidx}.ieee80211k=1' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 # 芝麻开门
 sed -i '/exit 0/i\# 芝麻开门\necho 0xDEADBEEF > /etc/config/google_fu_mode' package/lean/default-settings/files/zzz-default-settings
+# vim设置
+sed -i '/exit 0/i\# vim设置\nsed -i "s/mouse=/mouse-=/g" /usr/share/vim/vim80/defaults.vim' package/lean/default-settings/files/zzz-default-settings
 # 修改smartdns配置
 curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/smartdns/newsmartdns > package/base-files/files/etc/newsmartdns
 curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/smartdns/smartdns.conf > package/base-files/files/etc/smartdns.conf
