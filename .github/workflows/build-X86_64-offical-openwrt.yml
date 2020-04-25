@@ -41,8 +41,6 @@ env:
    #DIY_SH: scripts/lean-openwrt.sh
    DIY_P1_SH: scripts/lean-extra-openwrt.sh
    DIY_P2_SH: scripts/lean-plugin-openwrt.sh
-   # 下载文件URL
-   DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
    # 时区设置
    TZ: Asia/Shanghai
    # 固件标签
