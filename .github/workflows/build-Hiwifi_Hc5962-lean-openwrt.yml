@@ -50,8 +50,6 @@ env:
    DEVICE: openwrt-ramips-mt7621-hiwifi_hc5962
    # SSH 连接Actions功能
    SSH_ACTIONS: false
-   # 上传固件目录
-   UPLOAD_FIRMWARE: true
    # 上传ROOTFS文件
    UPLOAD_ROOTFS: true
    # 临时文件名称
@@ -169,7 +167,7 @@ jobs:
       run: |
         cd openwrt/bin/targets/$TARGET/$SUBTARGET
         mv sha256sums sha256sums.orig
-        sha256sum *.img > sha256sums
+        sha256sum *.bin > sha256sums
         
     # 上传Config配置文件
     - name: 上传Config配置文件
@@ -202,7 +200,8 @@ jobs:
       with:
         name: ${{ steps.date.outputs.date }}_${{ env.DEVICE }}.manifest
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}.manifest
-      
+   
+    # 上传RootFS
     - name: 上传RootFS
       uses: actions/upload-artifact@master
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_ROOTFS == 'true'
