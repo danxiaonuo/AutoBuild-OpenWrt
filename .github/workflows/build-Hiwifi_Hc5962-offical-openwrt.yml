@@ -7,7 +7,7 @@
 #=================================================
 
 # 编译的名称
-name: 编译Hiwifi_Hc5962 Lean's的OpenWrt固件
+name: 编译Hiwifi_Hc5962 Offical's的OpenWrt固件
 
 on: 
   # 发布类型为published
