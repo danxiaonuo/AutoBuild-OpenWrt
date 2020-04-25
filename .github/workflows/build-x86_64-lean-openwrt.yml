@@ -45,8 +45,17 @@ env:
    DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
    # 时区设置
    TZ: Asia/Shanghai
+   # 固件标签
+   TARGET: x86
+   # 固件版本
+   SUBTARGET: 64
+   DEVICE: openwrt-x86-64
    # SSH 连接Actions功能
    SSH_ACTIONS: false
+   # 上传bin目录
+   #UPLOAD_BIN_DIR: false
+   # 上传固件目录
+   UPLOAD_FIRMWARE: true
    # 上传固件到WeTransfer
    UPLOAD_WETRANSFER: true
    # 上传固件到奶牛快传
