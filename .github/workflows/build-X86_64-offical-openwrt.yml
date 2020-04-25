@@ -1,0 +1,146 @@
+#=================================================
+# https://github.com/danxiaonuo/AutoBuild-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: danxiaonuo
+# Blog: https://www.danxiaonuo.com
+#=================================================
+
+# 编译的名称
+name: 编译x86_64 Lean's的OpenWrt固件
+
+on: 
+  # 发布类型为published
+  release:
+    types: [published]
+  # 上传为master版本
+  push:
+    branches: 
+      - master
+    # 路径
+    paths:
+      - 'config/X86_64-openwrt.config'
+  # 每周三的晚上3点钟编译
+  schedule:
+     - cron: '0 3 * * 3'
+  # 点击★开始触发编译固件
+  watch:  
+     types: started
+  
+# 环境变量
+env:
+   # 源码仓库地址
+   REPO_URL: https://github.com/coolsnowwolf/lede
+   # 源码分支
+   REPO_BRANCH: master
+   # 自定义feeds.conf.default文件名
+   #FEEDS_CONF: feeds.conf.default
+   # 自定义.config文件名
+   CONFIG_FILE: config/X86_64-openwrt.config
+   # 自定义执行脚本名称
+   #DIY_SH: scripts/lean-openwrt.sh
+   DIY_P1_SH: scripts/lean-extra-openwrt.sh
+   DIY_P2_SH: scripts/lean-plugin-openwrt.sh
+   # 下载文件URL
+   DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
+   # 时区设置
+   TZ: Asia/Shanghai
+   # 固件标签
+   TARGET: x86
+   # 固件版本
+   SUBTARGET: 64
+   # 固件名称
+   DEVICE: openwrt-x86-64
+   # SSH 连接Actions功能
+   SSH_ACTIONS: false
+   # 上传固件目录
+   UPLOAD_FIRMWARE: true
+
+ 
+# 任务集
+jobs:
+  build:
+    # 选择虚拟环境
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    
+    # 运行步骤
+    steps:
+    
+    # 获取构建时间
+    - name: 获取构建时间
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+    
+    # 检出master分支
+    - name: 检出master分支
+      uses: actions/checkout@master
+    
+    # 初始化系统环境
+    - name: 初始化系统环境
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        sudo swapoff /swapfile
+        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler python3.5 git-core antlr3 gperf
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/etc/.bashrc > ~/.bashrc
+    
+    # 克隆源码
+    - name: 克隆源码
+      run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+      
+    # 加载自定义脚本  
+    - name: 加载自定义脚本
+      run: |
+        chmod +x $DIY_P1_SH $DIY_P2_SH
+        cd openwrt
+        ../$DIY_P1_SH
+        ../$DIY_P2_SH
+     
+    # 更新和安装 feeds 
+    - name: 更新和安装 feeds
+      run: |
+        cd openwrt
+        sed -i 's/^#\(src-git .*\)$/\1/' ./feeds.conf.default  
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+    
+    # 加载自定义配置文件
+    - name: 加载自定义配置文件
+      run: |
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+    
+    # 生成配置文件
+    - name: 生成配置文件
+      run: | 
+        cd openwrt && make defconfig
+    
+    # 连接SSH
+    - name: 连接SSH
+      uses: P3TERX/debugger-action@master
+      if: env.SSH_ACTIONS == 'true'
+    
+    # 下载固件包
+    - name: 下载固件包
+      id: package
+      run: |
+        cd openwrt
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+    
+    # 编译固件
+    - name: 编译固件
+      id: compile
+      run: |
+        cd openwrt
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 V=s
+        echo "::set-output name=status::success"
