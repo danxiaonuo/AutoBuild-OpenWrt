@@ -57,10 +57,6 @@ env:
    #UPLOAD_BIN_DIR: false
    # 上传固件目录
    UPLOAD_FIRMWARE: true
-   # 上传固件到WeTransfer
-   UPLOAD_WETRANSFER: true
-   # 上传固件到奶牛快传
-   UPLOAD_COWTRANSFER: true
  
 # 任务集
 jobs:
