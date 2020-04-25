@@ -4,7 +4,7 @@ echo "src-git lienol https://github.com/chenshuo890/lienol-openwrt-package.git" 
 echo "src-git helloworld https://github.com/fw876/helloworld" >> feeds.conf.default
 # 增加 lede
 echo "src-git lede https://github.com/coolsnowwolf/lede.git" >> feeds.conf.default
-# Add luci-theme-argon
+# 增加 luci-theme-argon
 git clone https://github.com/jerrykuku/luci-theme-argon package/danxiaonuo/luci-theme-argon
 # smartdns
 svn co https://github.com/pymumu/smartdns/trunk/package/openwrt package/danxiaonuo/smartdns
