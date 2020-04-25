@@ -209,6 +209,14 @@ jobs:
         name: ${{ steps.date.outputs.date }}_${{ env.DEVICE }}-rootfs.tar.gz
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-rootfs.tar.gz
      
+    # 上传kernel镜像文件   
+    - name: 上传initramfs镜像文件
+      uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success'
+      with:
+        name: ${{ steps.date.outputs.date }}_${{ env.DEVICE }}-initramfs-kernel.bin
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-initramfs-kernel.bin
+     
     # 上传Sysupgrade镜像文件   
     - name: 上传Sysupgrade镜像文件
       uses: actions/upload-artifact@master
