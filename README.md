@@ -2,6 +2,12 @@
 ## 支持设备与编译状态：
 
 点击下表中蓝色 “√” 即可跳转到该设备固件下载页面。
+| 支持设备/版本(内核) |                          Lean (4.x)                          |                        Offical (5.4)                         |                        Project (5.4)                         |
+| :-----------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|    Hiwifi_Hc5962    | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91x86_64+Lean%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91x86_64+Offical%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91x86_64+Project%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 |
+|      Newifi_D2      | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91Newifi_D2+Lean%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91Newifi_D2+Offical%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91Newifi_D2+Project%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 |
+|     Phicomm-K3      | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91Phicomm-K3+Lean%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91Phicomm-K3+Offical%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91Phicomm-K3+Project%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 |
+|       X86_64        | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91x86_64+Lean%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91x86_64+Offical%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 | https://github.com/danxiaonuo/AutoBuild-OpenWrt/actions?query=workflow%3A%22%E7%BC%96%E8%AF%91x86_64+Project%27s%E7%9A%84OpenWrt%E5%9B%BA%E4%BB%B6%22 |
 
 其中：
 
