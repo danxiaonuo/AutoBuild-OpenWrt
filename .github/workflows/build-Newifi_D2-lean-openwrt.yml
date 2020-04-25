@@ -7,7 +7,7 @@
 #=================================================
 
 # 编译的名称
-name: 编译x86_64 Lean's的OpenWrt固件
+name: 编译Newifi_D2 Lean's的OpenWrt固件
 
 on: 
   # 发布类型为published
@@ -19,7 +19,7 @@ on:
       - master
     # 路径
     paths:
-      - 'config/x86_64-lean-openwrt.config'
+      - 'config/Newifi_D2-lean-openwrt.config'
   # 每周三的晚上3点钟编译
   schedule:
      - cron: '0 3 * * 3'
@@ -36,7 +36,7 @@ env:
    # 自定义feeds.conf.default文件名
    #FEEDS_CONF: feeds.conf.default
    # 自定义.config文件名
-   CONFIG_FILE: config/x86_64-lean-openwrt.config
+   CONFIG_FILE: config/Newifi_D2-lean-openwrt.config
    # 自定义执行脚本名称
    #DIY_SH: scripts/lean-openwrt.sh
    DIY_P1_SH: scripts/lean-extra-openwrt.sh
@@ -46,11 +46,11 @@ env:
    # 时区设置
    TZ: Asia/Shanghai
    # 固件标签
-   TARGET: x86
+   TARGET: mt7621
    # 固件版本
-   SUBTARGET: 64
+   SUBTARGET: newifi-d2
    # 固件名称
-   DEVICE: openwrt-x86-64
+   DEVICE: Newifi_D2
    # SSH 连接Actions功能
    SSH_ACTIONS: false
    # 上传bin目录
