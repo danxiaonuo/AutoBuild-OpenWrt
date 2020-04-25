@@ -169,7 +169,7 @@ jobs:
       run: |
         cd openwrt/bin/targets/$TARGET/$SUBTARGET
         mv sha256sums sha256sums.orig
-        sha256sum *.img > sha256sums
+        sha256sum *.trx > sha256sums
         
     # 上传Config配置文件
     - name: 上传Config配置文件
@@ -202,7 +202,8 @@ jobs:
       with:
         name: ${{ steps.date.outputs.date }}_${{ env.DEVICE }}.manifest
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}.manifest
-      
+     
+    # 上传RootFS
     - name: 上传RootFS
       uses: actions/upload-artifact@master
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_ROOTFS == 'true'
