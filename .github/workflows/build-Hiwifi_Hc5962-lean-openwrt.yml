@@ -50,8 +50,6 @@ env:
    DEVICE: openwrt-ramips-mt7621-hiwifi_hc5962
    # SSH 连接Actions功能
    SSH_ACTIONS: false
-   # 上传ROOTFS文件
-   UPLOAD_ROOTFS: true
    # 临时文件名称
    DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
    # 上传临时文件
@@ -123,7 +121,6 @@ jobs:
     
     # 更新源
     - name: Update Feeds
-      if: env.REPO_URL != 'https://github.com/coolsnowwolf/lede'
       working-directory: ./openwrt
       run:  |
         sed -i 's/^#\(src-git .*\)$/\1/' ./feeds.conf.default
@@ -132,7 +129,6 @@ jobs:
        
     # 安装源
     - name: Install Feeds
-      if: env.REPO_URL != 'https://github.com/coolsnowwolf/lede'
       working-directory: ./openwrt
       run:  |
         sed -i 's/^#\(src-git .*\)$/\1/' ./feeds.conf.default
