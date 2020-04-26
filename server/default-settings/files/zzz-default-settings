@@ -59,7 +59,7 @@ sed -i '/set wireless.default_radio${devidx}.encryption=sae-mixed/a\\t\t\tset wi
 sed -i '/exit 0/i\# 启动WIFI\nnohup sleep 60 && /sbin/wifi up &' package/base-files/files/etc/rc.local
 
 # 芝麻开门
-cho 0xDEADBEEF > /etc/config/google_fu_mode
+echo 0xDEADBEEF > /etc/config/google_fu_mode
 
 # vim设置
 sed -i 's/mouse=/mouse-=/g' /usr/share/vim/vim80/defaults.vim
