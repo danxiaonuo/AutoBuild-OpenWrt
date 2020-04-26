@@ -1,5 +1,8 @@
 # 增加自定义配置
 svn co https://github.com/danxiaonuo/AutoBuild-OpenWrt/trunk/server/default-settings package/danxiaonuo/default-settings
+# 修改root密码
+password=$(openssl passwd -1 'admin')
+sed -i "s|root::0:0:99999:7:::|root:$password:0:0:99999:7:::|g" package/base-files/files/etc/shadow
 # 增加IPV6
 curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/etc/99-ipv6 > package/base-files/files/etc/hotplug.d/99-ipv6
 sed -i '/exit 0/i\mv /etc/hotplug.d/99-ipv6 /etc/hotplug.d/iface/99-ipv6' package/danxiaonuo/default-settings/files/zzz-default-settings
