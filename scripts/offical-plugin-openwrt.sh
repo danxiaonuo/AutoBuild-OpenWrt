@@ -25,4 +25,4 @@ svn co https://github.com/coolsnowwolf/lede/trunk/tools/upx tools/upx
 sed -i '/CONFIG_TARGET_tegra/a\tools-y += ucl upx' tools/Makefile
 sed -i '/dependencies/a\$(curdir)/upx/compile := $(curdir)/ucl/compile' tools/Makefile
 # 增加自定义配置
-sed -i 's/base-files.*/& default-settings/g' include/target.mk
+sed  's/base-files.*/default-settings &/' include/target.mk
