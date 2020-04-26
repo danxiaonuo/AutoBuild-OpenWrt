@@ -291,4 +291,4 @@ jobs:
       with:
         SCKEY: ${{ secrets.SCKEY }}
         text: ${{ env.BRANCH }}固件编译完成！
-        desp: 源码:${{ env.REPO_URL }} 分支：${{ env.REPO_BRANCH }}
+        desp: 源码:${{ env.REPO_URL }} 分支:${{ env.REPO_BRANCH }}
