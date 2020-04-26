@@ -9,7 +9,6 @@ uci commit luci
 sed -i 's/OpenWrt/danxiaonuo/g' package/base-files/files/bin/config_generate
 # 设置时区
 sed -i 's/UTC/CST-8/g' package/base-files/files/bin/config_generate
-
 uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
 uci set system.@system[0].hostname=danxiaonuo
@@ -36,8 +35,14 @@ uci set flowoffload.@flow[0].flow_offloading_hw=1
 #uci set flowoffload.@flow[0].dns_server='223.5.5.5,223.6.6.6'
 uci commit flowoffload
 
+# fstab设置
 uci set fstab.@global[0].anon_mount=1
 uci commit fstab
+
+# samba设置
+uci set samba.@samba[0].name='danxiaonuo'
+uci set samba.@samba[0].description='danxiaonuo'
+uci commit samba
 
 # 增加 SSID 2.5G
 sed -i '/channel="11"/a\\t\tssid="danxiaonuo-2HZ"' package/kernel/mac80211/files/lib/wifi/mac80211.sh
