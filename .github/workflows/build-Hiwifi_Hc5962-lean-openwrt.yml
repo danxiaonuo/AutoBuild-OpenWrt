@@ -56,6 +56,30 @@ env:
    DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
    # 上传临时文件
    UPLOAD_TMP_LINK: true
+   # 上传 bin 目录
+   UPLOAD_BIN_DIR: false
+   # 上传固件目录
+   UPLOAD_FIRMWARE: true
+   # 上传固件到奶牛快传
+   UPLOAD_COWTRANSFER: true
+   # 上传固件到 WeTransfer
+   UPLOAD_WETRANSFER: true
+   # 上传分支
+   UPLOAD_BRANCH: true
+   # 分支
+   BRANCH: Hiwifi_Hc5962-Lean
+   # Github 用户名
+   GITHUB_USER_NAME: danxiaonuo
+   # Github 邮箱
+   GITHUB_USER_EMAIL: ${{ secrets.EMAIL }}
+   # Github
+   GITHUB: github.com/danxiaonuo/AutoBuild-OpenWrt.git
+   # 创建+上传发布
+   CREATE_RELEASE: true
+   # 编译者
+   BUILD_USER: danxiaonuo
+   # 微信通知
+   SEND_WECHAT_MSG: true
  
 # 任务集
 jobs:
