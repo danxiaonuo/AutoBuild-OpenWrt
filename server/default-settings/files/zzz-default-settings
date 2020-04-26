@@ -3,13 +3,10 @@
 # 修改root密码
 password=$(openssl passwd -1 'admin')
 sed -i "s|root::0:0:99999:7:::|root:$password:0:0:99999:7:::|g" /etc/shadow
-
 # 设置主机名称
 sed -i 's/OpenWrt/danxiaonuo/g' /bin/config_generate
-
 # 设置时区
 sed -i 's/UTC/CST-8/g' /bin/config_generate
-
 # 修改默认登陆IP地址
 sed -i 's/192.168.1.1/10.8.1.1/g' /bin/config_generate
 sed -i 's/192.168/10.8/g' /bin/config_generate
