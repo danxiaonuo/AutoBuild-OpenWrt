@@ -1,9 +1,3 @@
-# 增加 lienol passwall
-echo "src-git lienol https://github.com/chenshuo890/lienol-openwrt-package.git" >> feeds.conf.default
-# 增加 helloworld
-echo "src-git helloworld https://github.com/fw876/helloworld" >> feeds.conf.default
-# 增加 lede
-echo "src-git lede https://github.com/coolsnowwolf/lede.git" >> feeds.conf.default
 # 增加 luci-theme-argon
 git clone https://github.com/jerrykuku/luci-theme-argon.git package/danxiaonuo/luci-theme-argon
 # 删除 r8168 driver
