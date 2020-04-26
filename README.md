@@ -54,9 +54,6 @@
 ###           密码:admin      (路由 & SSH)
 ###       Wifi密码:password
 
-## 固件下载
-地址：(https://img.shields.io/github/v/release/danxiaonuo?style=for-the-badge&label=Download)](https://github.com/danxiaonuo/AutoBuild-OpenWrt/releases/latest)
-
 
 ## 支持设备与编译状态：
 
