@@ -30,8 +30,9 @@ on:
   
   # 点击★开始触发编译固件
   watch:  
-     types: started
-  
+     types: [started]
+     
+     
 # 环境变量
 env:
    # 源码仓库地址
