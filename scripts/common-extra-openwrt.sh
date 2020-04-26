@@ -5,8 +5,8 @@ curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master
 sed -i '/exit 0/i\mv /etc/hotplug.d/99-ipv6 /etc/hotplug.d/iface/99-ipv6' package/danxiaonuo/default-settings/files/zzz-default-settings
 sed -i '/99-ipv6/a\chmod u+x /etc/hotplug.d/iface/99-ipv6' package/danxiaonuo/default-settings/files/zzz-default-settings
 # 修改smartdns配置
-curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/smartdns/newsmartdns > package/base-files/files/etc/newsmartdns
-curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/smartdns/smartdns.conf > package/base-files/files/etc/smartdns.conf
+curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/smartdns/newsmartdns > package/base-files/files/etc/newsmartdns
+curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/smartdns/smartdns.conf > package/base-files/files/etc/smartdns.conf
 sed -i '/exit 0/i\# 修改smartdns配置\nmv /etc/newsmartdns /etc/config/smartdns\nmv /etc/smartdns.conf /var/etc/smartdns/smartdns.conf' package/danxiaonuo/default-settings/files/zzz-default-settings
 # 修改系统欢迎词
 curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/etc/banner > package/base-files/files/etc/banner
