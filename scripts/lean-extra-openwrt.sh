@@ -36,8 +36,8 @@ sed -i '/exit 0/i\# 芝麻开门\necho 0xDEADBEEF > /etc/config/google_fu_mode' 
 # vim设置
 sed -i '/exit 0/i\# vim设置\nsed -i "s/mouse=/mouse-=/g" /usr/share/vim/vim80/defaults.vim' package/lean/default-settings/files/zzz-default-settings
 # 修改smartdns配置
-curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/smartdns/newsmartdns > package/base-files/files/etc/newsmartdns
-curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/smartdns/smartdns.conf > package/base-files/files/etc/smartdns.conf
+curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/smartdns/newsmartdns > package/base-files/files/etc/newsmartdns
+curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/smartdns/smartdns.conf > package/base-files/files/etc/smartdns.conf
 sed -i '/exit 0/i\# 修改smartdns配置\nmv /etc/newsmartdns /etc/config/smartdns\nmv /etc/smartdns.conf /var/etc/smartdns/smartdns.conf' package/lean/default-settings/files/zzz-default-settings
 # 修改系统欢迎词
 curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/etc/banner > package/base-files/files/etc/banner
