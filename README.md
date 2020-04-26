@@ -71,7 +71,7 @@
 
 版本为 Offical 为基于 [OpenWrt 官方源码](https://github.com/openwrt/openwrt/tree/master) Master 分支编译的固件 (Luci 采用官方版 Luci 19.07)；
 
-版本为 Project 为基于 [Project-OpenWrt 源码](https://github.com/project-openwrt/openwrt/tree/openwrt-18.06) openwrt-18.06 分支编译的固件，目前在仍处于测试阶段 (Luci 采用 Lean 版 Luci 18.06 )。
+版本为 Project 为基于 [Project-OpenWrt 源码](https://github.com/project-openwrt/openwrt/tree/master) Master 分支编译的固件，目前在仍处于测试阶段 (Luci 采用 Lean 版 Luci 19.07 )。
 
 ## 注意事项：
 
@@ -84,7 +84,7 @@
 
 1. 完整性校验文件: sha256sums
 2. OpenWrt 编译配置: config.seed
-3. 固件内已集成的软件包列表: openwrt-$target-$subtarget-$devices.manifest
+3. 固件内已集成的软件包列表: manifest
 4. OpenWrt 的软件包归档: packages.zip
 
 以上文件可按需下载。
