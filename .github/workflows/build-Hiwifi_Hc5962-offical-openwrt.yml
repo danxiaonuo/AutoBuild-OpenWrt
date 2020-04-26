@@ -15,14 +15,14 @@ on:
     types: [published]
     
   # 编辑文件触发
-  push:
-    branches: 
-      - master
+  #push:
+    #branches: 
+      #- master
     # 路径
-    paths:
-      - 'config/Hiwifi_Hc5962-openwrt.config'
-      - 'scripts/offical-plugin-openwrt.sh'
-      - '.github/workflows/build-Hiwifi_Hc5962-offical-openwrt.yml'
+    #paths:
+      #- 'config/Hiwifi_Hc5962-openwrt.config'
+      #- 'scripts/offical-plugin-openwrt.sh'
+      #- '.github/workflows/build-Hiwifi_Hc5962-offical-openwrt.yml'
   
   # 每周三的晚上3点钟编译
   schedule:
