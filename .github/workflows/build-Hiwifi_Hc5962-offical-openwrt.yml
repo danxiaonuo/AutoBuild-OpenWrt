@@ -285,7 +285,7 @@ jobs:
         files: ${{ env.FIRMWARE }}/*
 
     # 微信通知
-    - name: WeChat Notification
+    - name: 微信通知
       if: steps.compile.outputs.status == 'success' && env.SEND_WECHAT_MSG == 'true' && !cancelled()
       uses: emon100/Action-Serverchan@master
       with:
