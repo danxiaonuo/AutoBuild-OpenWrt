@@ -15,9 +15,9 @@ on:
     types: [published]
     
   # 编辑文件触发
-  push:
-    branches: 
-      - master
+  #push:
+    #branches: 
+      #- master
     # 路径
     #paths:
     #  - 'config/Hiwifi_Hc5962-openwrt.config'
