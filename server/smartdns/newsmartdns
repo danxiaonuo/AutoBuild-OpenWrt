@@ -1,0 +1,173 @@
+config smartdns
+	option server_name 'cn'
+	option port '6053'
+	option tcp_server '1'
+	option ipv6_server '1'
+	option dualstack_ip_selection '0'
+	option prefetch_domain '1'
+	option serve_expired '0'
+	option redirect 'none'
+	option cache_size '5120'
+	option rr_ttl_min '300'
+	option rr_ttl_max '3600'
+	option seconddns_port '6553'
+	option seconddns_tcp_server '1'
+	option seconddns_no_rule_addr '0'
+	option seconddns_no_rule_nameserver '0'
+	option seconddns_no_rule_ipset '0'
+	option seconddns_no_rule_soa '0'
+	option force_aaaa_soa '0'
+	option coredump '0'
+	option seconddns_server_group 'global'
+	option seconddns_no_speed_check '1'
+	option seconddns_no_dualstack_selection '1'
+	option seconddns_no_cache '1'
+	option enabled '1'
+	option seconddns_enabled '1'
+	list old_redirect 'none'
+	list old_port '6053'
+	list old_enabled '1'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name '114DNS'
+	option ip '114.114.114.114'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'DNSPod'
+	option ip '119.29.29.29'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'AliDNS'
+	option ip '223.5.5.5'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'BaiduDNS'
+	option ip '180.76.76.76'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'oneDNS'
+	option ip '117.50.11.11'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'CNNIC sDNS'
+	option ip '1.2.4.8'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option name 'GoogleDNS'
+	option ip 'dns.google'
+	option port '853'
+	option type 'tls'
+	option server_group 'global'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option name 'CloudflareDNS'
+	option ip '1dot1dot1dot1.cloudflare-dns.com'
+	option port '853'
+	option type 'tls'
+	option server_group 'global'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option name 'GoogleDNS'
+	option ip 'dns.google/dns-query'
+	option type 'https'
+	option server_group 'global'
+	option blacklist_ip '0'
+	option port '443'
+
+config server
+	option enabled '1'
+	option name 'CloudflareDNS'
+	option ip 'cloudflare-dns.com/dns-query'
+	option type 'https'
+	option server_group 'global'
+	option blacklist_ip '0'
+	option port '443'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'AliDNS IPV6'
+	option ip '2400:3200::1'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'BaiduDNS IPV6'
+	option ip '2400:da00::6666'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'CFIECDNS IPV6'
+	option ip '240C::6666'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'GoogleDNS IPV6'
+	option ip '2001:4860:4860::8888'
+	option port '53'
+	option server_group 'global'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name '10086'
+	option ip '211.138.180.2'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name '10086'
+	option ip '211.138.180.3'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
