@@ -20,9 +20,9 @@ on:
 #      - master
     # 路径
 #    paths:
-#      - 'config/Phicomm-K3-openwrt.config'
+#      - 'config/x86_64-openwrt.config'
 #      - 'scripts/lean-plugin-openwrt.sh'
-#      - '.github/workflows/build-Phicomm-K3-lean-openwrt.yml'
+#      - '.github/workflows/build-x86_64-lean-openwrt.yml'
   
   # 每周三的晚上3点钟编译
   schedule:
