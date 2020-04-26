@@ -1,5 +1,33 @@
 #!/bin/sh
 
+# 修改root密码
+password=$(openssl passwd -1 'admin')
+sed -i "s|root::0:0:99999:7:::|root:$password:0:0:99999:7:::|g" /etc/shadow
+
+# 设置主机名称
+sed -i 's/OpenWrt/danxiaonuo/g' /bin/config_generate
+
+# 设置时区
+sed -i 's/UTC/CST-8/g' /bin/config_generate
+
+# 修改默认登陆IP地址
+sed -i 's/192.168.1.1/10.8.1.1/g' /bin/config_generate
+sed -i 's/192.168/10.8/g' /bin/config_generate
+
+# 增加 SSID 2.5G
+sed -i '/channel="11"/a\\t\tssid="danxiaonuo-2HZ"' /lib/wifi/mac80211.sh
+# 增加 SSID 5.0G
+sed -i '/channel="36"/a\\t\t\tssid="danxiaonuo-5HZ"' /lib/wifi/mac80211.sh
+# 修改默认 SSID
+sed -i 's/OpenWrt/${ssid}/g' /lib/wifi/mac80211.sh
+# 修改默认密钥
+sed -i 's/none/sae-mixed/g' /lib/wifi/mac80211.sh
+# 增加默认WIFI密码
+sed -i '/set wireless.radio${devidx}.hwmode=11/a\\t\t\tset wireless.radio${devidx}.country=CN\n\t\t\tset wireless.radio${devidx}.legacy_rates=1\n\t\t\tset wireless.radio${devidx}.mu_beamformer=1' /lib/wifi/mac80211.sh
+sed -i '/set wireless.default_radio${devidx}.encryption=sae-mixed/a\\t\t\tset wireless.default_radio${devidx}.key=password\n\t\t\tset wireless.default_radio${devidx}.ieee80211k=1' /lib/wifi/mac80211.sh
+# 启动WIFI
+sed -i '/exit 0/i\# 启动WIFI\nnohup sleep 60 && /sbin/wifi up &' /etc/rc.local
+
 # 语言设置
 uci set luci.main.lang=zh_cn
 uci set luci.main.mediaurlbase="/luci-static/argon"
