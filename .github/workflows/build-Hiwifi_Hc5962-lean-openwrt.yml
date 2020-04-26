@@ -121,8 +121,8 @@ jobs:
         cd openwrt
         useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>Date: %cd<br/>Commit: %s")
         echo "::set-env name=useVersionInfo::$useVersionInfo"
-        echo "::set-env name=DATE::$(TZ=CST-8 date "+%Y%m%d")"
-        echo "::set-env name=RELEASE_DATE::$(TZ=CST-8 date "+%Y-%m-%d")"
+        echo "::set-env name=DATE::$(TZ=CST-8 date "+%Y%m%d%H%M%S")"
+        echo "::set-env name=RELEASE_DATE::$(TZ=CST-8 date +"%Y.%m.%d-%H")"
       
     # 更新源
     - name: 更新源
