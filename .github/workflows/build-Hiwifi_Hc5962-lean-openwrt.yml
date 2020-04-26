@@ -75,6 +75,8 @@ env:
    GITHUB_USER_NAME: danxiaonuo
    # Github 邮箱
    GITHUB_USER_EMAIL: ${{ secrets.EMAIL }}
+   # Github TOKEN
+   GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
    # Github
    GITHUB: github.com/danxiaonuo/AutoBuild-OpenWrt.git
    # 创建+上传发布
