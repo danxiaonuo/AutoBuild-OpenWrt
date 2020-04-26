@@ -1,5 +1,7 @@
 # 增加 luci-theme-argon
 git clone https://github.com/jerrykuku/luci-theme-argon.git package/danxiaonuo/luci-theme-argon
+Server酱
+git clone https://github.com/tty228/luci-app-serverchan.git package/danxiaonuo/luci-app-serverchan
 # 删除 r8168 driver
 rm -rf package/ctcgfw/r8168
 # 删除 phicomm-k3screenctrl
