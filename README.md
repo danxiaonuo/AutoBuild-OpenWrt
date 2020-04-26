@@ -85,7 +85,6 @@
 1. 完整性校验文件: sha256sums
 2. OpenWrt 编译配置: config.seed
 3. 固件内已集成的软件包列表: manifest
-4. OpenWrt 的软件包归档: packages.zip
 
 以上文件可按需下载。
 
