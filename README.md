@@ -1,5 +1,5 @@
 # 路由器固件自动编译
- [![OpenWrt]]
+[![OpenWrt](https://img.shields.io/badge/From-OpenWrt-blue.svg?style=for-the-badge&logo=appveyor)]
 ## 支持设备与编译状态：
 
 点击下表中蓝色 “√” 即可跳转到该设备固件下载页面。
