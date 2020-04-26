@@ -10,19 +10,24 @@
 name: 编译Hiwifi_Hc5962 Lean's的OpenWrt固件
 
 on: 
-  # 发布类型为published
+  # release触发
   release:
     types: [published]
-  # 上传为master版本
+    
+  # 编辑文件触发
   push:
     branches: 
       - master
     # 路径
     paths:
       - 'config/Hiwifi_Hc5962-openwrt.config'
+      - 'scripts/lean-plugin-openwrt.sh'
+      - '.github/workflows/build-Hiwifi_Hc5962-lean-openwrt.yml'
+  
   # 每周三的晚上3点钟编译
   schedule:
      - cron: '0 3 * * 3'
+  
   # 点击★开始触发编译固件
   watch:  
      types: started
@@ -280,7 +285,7 @@ jobs:
         files: ${{ env.FIRMWARE }}/*
 
     # 微信通知
-    - name: WeChat Notification
+    - name: 微信通知
       if: steps.compile.outputs.status == 'success' && env.SEND_WECHAT_MSG == 'true' && !cancelled()
       uses: emon100/Action-Serverchan@master
       with:
