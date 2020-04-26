@@ -7,7 +7,7 @@
 #=================================================
 
 # 编译的名称
-name: 编译Newifi_D2 Offical's的OpenWrt固件
+name: 编译Newifi_D2 Project's的OpenWrt固件
 
 on: 
   # release触发
@@ -21,8 +21,8 @@ on:
     # 路径
 #    paths:
 #      - 'config/Newifi_D2-openwrt.config'
-#      - 'scripts/offical-plugin-openwrt.sh'
-#      - '.github/workflows/build-Newifi_D2-offical-openwrt.yml'
+#      - 'scripts/project-plugin-openwrt.sh'
+#      - '.github/workflows/build-Newifi_D2-project-openwrt.yml'
   
   # 每周三的晚上3点钟编译
   schedule:
@@ -44,7 +44,7 @@ env:
    CONFIG_FILE: config/Newifi_D2-openwrt.config
    # 自定义执行脚本名称
    DIY_P1_SH: scripts/common-extra-openwrt.sh
-   DIY_P2_SH: scripts/offical-plugin-openwrt.sh
+   DIY_P2_SH: scripts/project-plugin-openwrt.sh
    # 时区设置
    TZ: Asia/Shanghai
    # 固件标签
@@ -70,7 +70,7 @@ env:
    # 上传分支
    UPLOAD_BRANCH: true
    # 分支
-   BRANCH: Newifi_D2-Offical
+   BRANCH: Newifi_D2-Project
    # Github 用户名
    GITHUB_USER_NAME: danxiaonuo
    # Github 邮箱
