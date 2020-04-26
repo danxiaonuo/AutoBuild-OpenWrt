@@ -32,7 +32,7 @@
 | -- REPO_URL: https://github.com/coolsnowwolf/lede.git  | 定义源码 |
 | -- REPO_BRANCH: master | 定义分支 |
 | -- DIY_P1_SH: scripts/common-extra-openwrt.sh  | 定义脚本文件 |
-| -- DIY_P1_SH: DIY_P2_SH: scripts/lean-plugin-openwrt.sh  | 定义脚本文件 |
+| -- DIY_P2_SH: scripts/lean-plugin-openwrt.sh  | 定义脚本文件 |
 | -- SSH_ACTION: false |是否打开 SSH |
 | -- UPLOAD_BRANCH: true | 是否创建分支来存放编译固件及Package |
 | -- BRANCH: Newifi_D2-Lean | 分支名称 |
