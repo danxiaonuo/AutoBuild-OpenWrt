@@ -66,6 +66,9 @@ uci commit flowoffload
 uci set wireless.@wifi-device[0].country='CN'
 uci set wireless.@wifi-device[0].legacy_rates='1'
 uci set wireless.@wifi-device[0].mu_beamformer='1'
+uci set wireless.@wifi-device[0].path='pci0000:00/0000:00:01.0/0000:02:00.0'
+uci set wireless.@wifi-device[0].channel='auto'
+uci set wireless.@wifi-device[0].htmode='HT40'
 uci set wireless.@wifi-iface[0].ssid='danxiaonuo-2HZ'
 uci set wireless.@wifi-iface[0].encryption='sae-mixed'
 uci set wireless.@wifi-iface[0].key='password'
@@ -73,12 +76,14 @@ uci set wireless.@wifi-iface[0].ieee80211k='1'
 uci set wireless.@wifi-device[-1].country='CN'
 uci set wireless.@wifi-device[-1].legacy_rates='1'
 uci set wireless.@wifi-device[-1].mu_beamformer='1'
+uci set wireless.@wifi-device[-1].path='pci0000:00/0000:00:00.0/0000:01:00.0'
+uci set wireless.@wifi-device[-1].channel='auto'
+uci set wireless.@wifi-device[-1].htmode='VHT80'
 uci set wireless.@wifi-iface[-1].ssid='danxiaonuo-5HZ'
 uci set wireless.@wifi-iface[-1].encryption='sae-mixed'
 uci set wireless.@wifi-iface[-1].key='password'
 uci set wireless.@wifi-iface[-1].ieee80211k='1'
 uci commit wireless
-wifi down && wifi up
 
 # fstab设置
 uci set fstab.@global[0].anon_mount=1
