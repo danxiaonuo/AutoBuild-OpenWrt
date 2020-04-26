@@ -124,7 +124,6 @@ jobs:
         echo "::set-env name=DATE::$(TZ=CST-8 date "+%Y%m%d")"
         echo "::set-env name=RELEASE_DATE::$(TZ=CST-8 date "+%Y-%m-%d")"
       
-    
     # 更新源
     - name: 更新源
       working-directory: ./openwrt
