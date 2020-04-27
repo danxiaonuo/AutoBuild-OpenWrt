@@ -11,8 +11,8 @@ name: 编译x86_64 Lean's的OpenWrt固件
 
 on: 
   # release触发
-  release:
-    types: [published]
+#  release:
+#    types: [published]
     
   # 编辑文件触发
 #  push:
