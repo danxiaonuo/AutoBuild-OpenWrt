@@ -4,6 +4,8 @@ echo "src-git lienol https://github.com/chenshuo890/lienol-openwrt-package.git" 
 echo "src-git helloworld https://github.com/fw876/helloworld" >> feeds.conf.default
 # 增加 lede
 echo "src-git lede https://github.com/coolsnowwolf/lede.git" >> feeds.conf.default
+# 更改luci版本
+sed -i 's/luci.git/luci.git\;openwrt-19.07/g' feeds.conf.default
 # 增加 luci-theme-argon
 git clone https://github.com/jerrykuku/luci-theme-argon package/danxiaonuo/luci-theme-argon
 # smartdns
