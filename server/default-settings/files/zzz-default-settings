@@ -97,7 +97,7 @@ uci commit samba
 echo 0xDEADBEEF > /etc/config/google_fu_mode
 
 # vim设置
-sed -i 's/mouse=/mouse-=/g' /usr/share/vim/vim80/defaults.vim
+sed -i 's/mouse=/mouse-=/g' /usr/share/vim/*/defaults.vim
 
 # 删除一些页面
 rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
