@@ -20,6 +20,9 @@ git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/danx
 # Server酱
 git clone https://github.com/tty228/luci-app-serverchan.git package/danxiaonuo/luci-app-serverchan
 
+# luci-app-aliddns
+git clone https://github.com/honwen/luci-app-aliddns package/danxiaonuo/luci-app-aliddns
+
 # 增加openwet常用软件包
 #git clone https://github.com/kenzok8/openwrt-packages.git package/danxiaonuo/
 
