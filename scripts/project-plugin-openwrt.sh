@@ -1,5 +1,8 @@
 # 增加 luci-theme-argon
 git clone https://github.com/jerrykuku/luci-theme-argon.git package/danxiaonuo/luci-theme-argon
+# smartdns
+svn co https://github.com/pymumu/smartdns/trunk/package/openwrt package/danxiaonuo/smartdns
+svn co https://github.com/project-openwrt/openwrt/trunk/package/ntlf9t/luci-app-smartdns package/danxiaonuo/luci-app-smartdns
 # 删除 r8168 driver
 rm -rf package/ctcgfw/r8168
 # 删除 phicomm-k3screenctrl
@@ -10,3 +13,5 @@ git clone https://github.com/lwz322/k3screenctrl.git package/k3/k3screenctrl
 git clone https://github.com/lwz322/k3screenctrl_build.git package/k3/k3screenctrl_build
 # 删除默认配置
 rm -rf package/lean/default-settings
+rm -rf package/ntlf9t/smartdns
+rm -rf package/ntlf9t/luci-app-smartdns
