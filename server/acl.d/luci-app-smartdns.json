@@ -1,0 +1,11 @@
+{
+	"luci-app-smartdns": {
+		"description": "Grant UCI access for luci-app-smartdns",
+		"read": {
+			"uci": [ "smartdns" ]
+		},
+		"write": {
+			"uci": [ "smartdns" ]
+		}
+	}
+}
