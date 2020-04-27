@@ -135,9 +135,9 @@ echo "ip6tables -t nat -I POSTROUTING -s $(uci get network.globals.ula_prefix) -
 sed -i '/option disabled/d' /etc/config/wireless
 sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 
-sed -e "s#DISTRIB_ID='.*'#DISTRIB_ID='danxiaonuo'#g" /etc/openwrt_release
-sed -e "s#DISTRIB_REVISION='.*'#DISTRIB_REVISION='R1.1.1'#g" /etc/openwrt_release
-sed -e "s#DISTRIB_DESCRIPTION='.*'#DISTRIB_DESCRIPTION='danxiaonuo'#g" /etc/openwrt_release
+sed -i "s#DISTRIB_ID='.*'#DISTRIB_ID='danxiaonuo'#g" /etc/openwrt_release
+sed -i "s#DISTRIB_REVISION='.*'#DISTRIB_REVISION='R1.1.1'#g" /etc/openwrt_release
+sed -i "s#DISTRIB_DESCRIPTION='.*'#DISTRIB_DESCRIPTION='danxiaonuo'#g" /etc/openwrt_release
 
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
