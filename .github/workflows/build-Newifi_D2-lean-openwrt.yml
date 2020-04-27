@@ -124,6 +124,14 @@ jobs:
         echo "::set-env name=DATE::$(TZ=CST-8 date "+%Y%m%d%H%M%S")"
         echo "::set-env name=RELEASE_DATE::$(TZ=CST-8 date +"%Y.%m.%d-%H")"
       
+    # 加载自定义脚本  
+    - name: 加载自定义脚本
+      run: |
+        chmod +x $DIY_P1_SH $DIY_P2_SH
+        cd openwrt
+        ../$DIY_P1_SH
+        ../$DIY_P2_SH
+        
     # 更新源
     - name: 更新源
       working-directory: ./openwrt
@@ -138,14 +146,6 @@ jobs:
       run:  |
         sed -i 's/^#\(src-git .*\)$/\1/' ./feeds.conf.default
         ./scripts/feeds install -a
-    
-    # 加载自定义脚本  
-    - name: 加载自定义脚本
-      run: |
-        chmod +x $DIY_P1_SH $DIY_P2_SH
-        cd openwrt
-        ../$DIY_P1_SH
-        ../$DIY_P2_SH
     
     # 加载自定义配置文件
     - name: 加载自定义配置文件
