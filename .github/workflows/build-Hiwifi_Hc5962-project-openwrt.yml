@@ -292,5 +292,5 @@ jobs:
       uses: emon100/Action-Serverchan@master
       with:
         SCKEY: ${{ secrets.SCKEY }}
-        text: 🚀 ${{ env.BRANCH }}固件编译完成！
+        text: ${{ env.BRANCH }}固件编译完成！
         desp: 固件名称:${{ env.BRANCH }} 固件地址:${{ env.GITHUB_RELEASE }}/tag/${{ env.RELEASE_TAG }}
