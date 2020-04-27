@@ -83,7 +83,10 @@ env:
    BUILD_USER: danxiaonuo
    # 微信通知
    SEND_WECHAT_MSG: true
- 
+   # 发行固件地址
+   GITHUB_RELEASE: https://github.com/danxiaonuo/AutoBuild-OpenWrt/releases
+   
+   
 # 任务集
 jobs:
   build:
@@ -290,5 +293,5 @@ jobs:
       uses: emon100/Action-Serverchan@master
       with:
         SCKEY: ${{ secrets.SCKEY }}
-        text: ${{ env.BRANCH }}固件编译完成！
-        desp: 源码:${{ env.REPO_URL }} 分支:${{ env.REPO_BRANCH }}
+        text: 🚀 ${{ env.BRANCH }}固件编译完成！
+        desp: 固件名称:${{ env.BRANCH }} 固件地址:${{ env.GITHUB_RELEASE }}/tag/${{ env.BRANCH }}
