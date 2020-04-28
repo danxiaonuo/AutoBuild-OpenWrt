@@ -210,14 +210,6 @@ jobs:
         rm -rf *uImage
         echo "::set-env name=FIRMWARE::$PWD"
         echo "::set-output name=status::success"
-    
-    # 上传固件
-    - name: 上传固件
-      uses: actions/upload-artifact@master
-      if: steps.organize.outputs.status == 'success' && !cancelled()
-      with:
-        name: ${{ env.BUILD_USER }}-${{ env.DATE }}-OpenWrt-${{ env.BRANCH }}-Firmware
-        path: ${{ env.FIRMWARE }}
 
     # 上传固件到奶牛快传
     - name: 上传固件到奶牛快传
@@ -263,29 +255,6 @@ jobs:
       run: |
         echo ::set-env name=RELEASE_TAG::"OpenWrt-${{ env.BRANCH }}-${{ env.RELEASE_DATE }}"
         echo "::set-output name=status::success"
-    
-    # 发行固件
-    - name: 发行固件
-      uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      with:
-        name: Netgear ${{ env.BRANCH }} 🚀 | 自动编译 / ${{ env.RELEASE_TAG }}
-        tag_name: ${{ env.RELEASE_TAG }}
-        body: |            
-            1、本固件为自动编译
-            2、发行版中只提供完整的固件
-            3、需要单独IPK请到分支下载
-            4、源码：${{ env.REPO_URL }}
-            -- Build by ${{ env.BUILD_USER }} @ with Github Action on ${{ env.RELEASE_TAG }}
-            🚀 Auto build | 自动编译
-            🔗 [Cowtransfer | 奶牛快传](${{ env.COWTRANSFER_URL }}) 
-            🔗 [WeTransfer](${{ env.WETRANSFER_URL }})       
-            当前使用版本:            
-            ${{ env.useVersionInfo }}
-            ${{ github.event.commits[0].message }}
-        files: ${{ env.FIRMWARE }}/${{ env.BUILD_USER }}-${{ env.DATE }}-OpenWrt-${{ env.BRANCH }}-Firmware
 
     # 微信通知
     - name: 微信通知
