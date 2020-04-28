@@ -1,0 +1,292 @@
+#=================================================
+# https://github.com/danxiaonuo/AutoBuild-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: danxiaonuo
+# Blog: https://www.danxiaonuo.com
+#=================================================
+
+# 编译的名称
+name: 编译Hiwifi_Hc5962 Uola's的OpenWrt固件
+
+on: 
+  # release触发
+#  release:
+#    types: [published]
+    
+  # 编辑文件触发
+#  push:
+#    branches: 
+#      - master
+    # 路径
+#    paths:
+#      - 'config/Hiwifi_Hc5962-openwrt.config'
+#      - '.github/workflows/build-Hiwifi_Hc5962-uola-openwrt.yml'
+  
+  # 每周三的晚上3点钟编译
+  schedule:
+     - cron: '0 3 * * 3'
+  
+  # 点击★开始触发编译固件
+  watch:  
+     types: [started]
+  
+# 环境变量
+env:
+   # 源码仓库地址
+   REPO_URL: https://github.com/danxiaonuo/uola
+   # 源码分支
+   REPO_BRANCH: master
+   # 自定义feeds.conf.default文件名
+   #FEEDS_CONF: feeds.conf.default
+   # 自定义.config文件名
+   CONFIG_FILE: config/Hiwifi_Hc5962-openwrt.config
+   # 时区设置
+   TZ: Asia/Shanghai
+   # 固件标签
+   TARGET: ramips
+   # 固件版本
+   SUBTARGET: mt7621
+   # 固件名称
+   DEVICE: openwrt-ramips-mt7621-hiwifi_hc5962
+   # SSH 连接Actions功能
+   SSH_ACTIONS: false
+   # 临时文件名称
+   DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
+   # 上传临时文件
+   UPLOAD_TMP_LINK: true
+   # 上传 bin 目录
+   UPLOAD_BIN_DIR: false
+   # 上传固件目录
+   UPLOAD_FIRMWARE: true
+   # 上传固件到奶牛快传
+   UPLOAD_COWTRANSFER: true
+   # 上传固件到 WeTransfer
+   UPLOAD_WETRANSFER: true
+   # 上传分支
+   UPLOAD_BRANCH: true
+   # 分支
+   BRANCH: Hiwifi_Hc5962-Project
+   # Github 用户名
+   GITHUB_USER_NAME: danxiaonuo
+   # Github 邮箱
+   GITHUB_USER_EMAIL: ${{ secrets.EMAIL }}
+   # Github
+   GITHUB: github.com/danxiaonuo/AutoBuild-OpenWrt.git
+   # 创建+上传发布
+   CREATE_RELEASE: true
+   # 编译者
+   BUILD_USER: danxiaonuo
+   # 微信通知
+   SEND_WECHAT_MSG: true
+   # 发行固件地址
+   GITHUB_RELEASE: https://github.com/danxiaonuo/AutoBuild-OpenWrt/releases
+ 
+# 任务集
+jobs:
+  build:
+    # 选择虚拟环境
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    
+    # 运行步骤
+    steps:
+    
+    # 检出master分支
+    - name: 检出master分支
+      uses: actions/checkout@master
+    
+    # 初始化系统环境
+    - name: 初始化系统环境
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        sudo swapoff /swapfile
+        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+        sudo -E apt-get -qq update
+        sudo -E apt-get -y full-upgrade
+        sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler  git-core antlr3 gperf libreadline-dev ccache curl wget vim nano python python3 python3.5 python-pip python3-pip python-ply python3-ply haveged lrzsz scons ecj fastjar mkisofs
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/etc/.bashrc > ~/.bashrc
+    
+    # 克隆源码
+    - name: 克隆源码
+      run: |
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        cd openwrt
+        useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>Date: %cd<br/>Commit: %s")
+        echo "::set-env name=useVersionInfo::$useVersionInfo"
+        echo "::set-env name=DATE::$(TZ=CST-8 date "+%Y%m%d%H%M%S")"
+        echo "::set-env name=RELEASE_DATE::$(TZ=CST-8 date +"%Y.%m.%d-%H")"
+      
+    # 加载自定义脚本  
+    - name: 加载自定义脚本
+      run: |
+        chmod +x $DIY_P1_SH $DIY_P2_SH
+        cd openwrt
+        ../$DIY_P1_SH
+        ../$DIY_P2_SH
+        
+    # 更新源
+    - name: 更新源
+      working-directory: ./openwrt
+      run:  |
+        sed -i 's/^#\(src-git .*\)$/\1/' ./feeds.conf.default
+        ./scripts/feeds clean
+        ./scripts/feeds update -a
+       
+    # 安装源
+    - name: 安装源
+      working-directory: ./openwrt
+      run:  |
+        sed -i 's/^#\(src-git .*\)$/\1/' ./feeds.conf.default
+        ./scripts/feeds install -a
+    
+    # 加载自定义配置文件
+    - name: 加载自定义配置文件
+      run: |
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+    
+    # 生成配置文件
+    - name: 生成配置文件
+      working-directory: ./openwrt
+      run: | 
+        make defconfig
+    
+    # 连接SSH
+    - name: 连接SSH
+      uses: P3TERX/debugger-action@master
+      if: env.SSH_ACTIONS == 'true'
+    
+    # 下载固件包
+    - name: 下载固件包
+      working-directory: ./openwrt
+      id: package
+      run: |
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+    
+    # 编译固件
+    - name: 编译固件
+      working-directory: ./openwrt
+      id: compile
+      run: |
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 V=s
+        echo "::set-output name=status::success"
+        
+    # 上传到分支
+    - name: 上传到分支
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BRANCH == 'true' && !cancelled() 
+      env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      run: |
+          cd openwrt/bin
+          git init
+          git config user.name $GITHUB_USER_NAME
+          git config user.email $GITHUB_USER_EMAIL
+          git add .
+          git commit -m "Update OpenWrt_"$BRANCH
+          git push --force --quiet https://${{ secrets.RELEASE_TOKEN }}@$GITHUB HEAD:OpenWrt-$BRANCH
+      
+    # 整理文件
+    - name: 整理文件
+      id: organize
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      run: |
+        mv openwrt/.config openwrt/bin/targets/*/*
+        cd openwrt/bin/targets/*/*
+        rm -rf packages
+        rm -rf *uImage
+        echo "::set-env name=FIRMWARE::$PWD"
+        echo "::set-output name=status::success"
+    
+    # 上传固件
+    - name: 上传固件
+      uses: actions/upload-artifact@master
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with:
+        name: ${{ env.BUILD_USER }}-${{ env.DATE }}-OpenWrt-${{ env.BRANCH }}-Firmware
+        path: ${{ env.FIRMWARE }}
+
+    # 上传固件到奶牛快传
+    - name: 上传固件到奶牛快传
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 99 -t 3 --hash --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
+        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+        echo "::set-env name=COWTRANSFER_URL::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
+    
+    # 上传固件到WeTransfer
+    - name: 上传固件到WeTransfer
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
+        echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
+        echo "::set-env name=WETRANSFER_URL::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
+    
+    # 上传文件到Tmp.Link
+    - name: 上传文件到Tmp.Link
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_TMP_LINK == 'true' && !cancelled()
+      run: |
+        cd openwrt/bin/targets/*/*
+        find . -maxdepth 1 ! -name "$DOWNLOAD_URL_FILE" -type f -exec echo {} >> $DOWNLOAD_URL_FILE \; -exec curl -k -F "file=@{}" -F "token=${{ secrets.TMP_LINK_TOKEN }}" -F "model=3" -X POST "https://connect.tmp.link/api_v2/cli_uploader" -s >> $DOWNLOAD_URL_FILE \;
+        sed -i 's/\.\///g' $DOWNLOAD_URL_FILE
+        sed -i '/^Upload.*/d' $DOWNLOAD_URL_FILE
+        sed -i '/^Thank.*/d' $DOWNLOAD_URL_FILE
+        sed -i '/Download/G' $DOWNLOAD_URL_FILE
+    
+    # 上传下载地址文件
+    - name: 上传下载地址文件
+      uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_TMP_LINK == 'true' && !cancelled()
+      with:
+        name: ${{ env.DOWNLOAD_URL_FILE }}
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DOWNLOAD_URL_FILE }}
+    
+    # 生成标签
+    - name: 生成标签
+      id: tag
+      if: steps.compile.outputs.status == 'success' && env.CREATE_RELEASE == 'true' && !cancelled()
+      run: |
+        echo ::set-env name=RELEASE_TAG::"OpenWrt-${{ env.BRANCH }}-${{ env.RELEASE_DATE }}"
+        echo "::set-output name=status::success"
+    
+    # 发行固件
+    - name: 发行固件
+      uses: softprops/action-gh-release@v1
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      with:
+        name: Netgear ${{ env.BRANCH }} 🚀 | 自动编译 / ${{ env.RELEASE_TAG }}
+        tag_name: ${{ env.RELEASE_TAG }}
+        body: |            
+            1、本固件为自动编译
+            2、发行版中只提供完整的固件
+            3、需要单独IPK请到分支下载
+            4、源码：${{ env.REPO_URL }}
+            -- Build by ${{ env.BUILD_USER }} @ with Github Action on ${{ env.RELEASE_TAG }}
+            🚀 Auto build | 自动编译
+            🔗 [Cowtransfer | 奶牛快传](${{ env.COWTRANSFER_URL }}) 
+            🔗 [WeTransfer](${{ env.WETRANSFER_URL }})       
+            当前使用版本:            
+            ${{ env.useVersionInfo }}
+            ${{ github.event.commits[0].message }}
+        files: ${{ env.FIRMWARE }}/*
+
+    # 微信通知
+    - name: 微信通知
+      if: steps.compile.outputs.status == 'success' && env.SEND_WECHAT_MSG == 'true' && !cancelled()
+      uses: emon100/Action-Serverchan@master
+      with:
+        SCKEY: ${{ secrets.SCKEY }}
+        text: ${{ env.BRANCH }}固件编译完成！
+        desp: 固件名称:${{ env.BRANCH }} 固件地址:${{ env.GITHUB_RELEASE }}/tag/${{ env.RELEASE_TAG }}
