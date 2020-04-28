@@ -66,7 +66,7 @@ env:
    # 上传分支
    UPLOAD_BRANCH: true
    # 分支
-   BRANCH: Hiwifi_Hc5962-Project
+   BRANCH: Hiwifi_Hc5962-Uola
    # Github 用户名
    GITHUB_USER_NAME: danxiaonuo
    # Github 邮箱
