@@ -68,7 +68,7 @@ env:
    # 上传固件到 WeTransfer
    UPLOAD_WETRANSFER: true
    # 上传分支
-   UPLOAD_BRANCH: true
+   UPLOAD_BRANCH: false
    # 分支
    BRANCH: x86-64-Lean
    # Github 用户名
@@ -285,7 +285,7 @@ jobs:
             当前使用版本:            
             ${{ env.useVersionInfo }}
             ${{ github.event.commits[0].message }}
-        files: ${{ env.FIRMWARE }}/*
+        files: ${{ env.FIRMWARE }}/${{ env.BUILD_USER }}-${{ env.DATE }}-OpenWrt-${{ env.BRANCH }}-Firmware
 
     # 微信通知
     - name: 微信通知
