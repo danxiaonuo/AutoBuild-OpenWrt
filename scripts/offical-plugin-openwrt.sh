@@ -6,7 +6,7 @@ echo "src-git helloworld https://github.com/fw876/helloworld" >> feeds.conf.defa
 echo "src-git lede https://github.com/coolsnowwolf/lede.git" >> feeds.conf.default
 # 修正内核
 rm -rf target/linux/generic
-svn co https://github.com/project-openwrt/openwrt/trunk/target/linux/generic target/linux/generic
+svn co https://github.com/project-openwrt/openwrt/branches/master/target/linux/generic target/linux/generic
 # 增加ll命令
 sed -i '/PATH/i\alias ll="ls -alF --color=auto"\n' package/base-files/files/etc/profile
 # 增加 luci-theme-argon
