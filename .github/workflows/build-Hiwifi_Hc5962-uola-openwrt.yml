@@ -126,7 +126,6 @@ jobs:
     - name: 更新源
       working-directory: ./openwrt
       run:  |
-        sed -i 's/^#\(src-git .*\)$/\1/' ./feeds.conf.default
         ./scripts/feeds clean
         ./scripts/feeds update -a
        
@@ -134,7 +133,6 @@ jobs:
     - name: 安装源
       working-directory: ./openwrt
       run:  |
-        sed -i 's/^#\(src-git .*\)$/\1/' ./feeds.conf.default
         ./scripts/feeds install -a
     
     # 加载自定义配置文件
