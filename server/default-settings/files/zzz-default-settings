@@ -42,6 +42,8 @@ uci set network.lan.netmask='255.255.255.0'
 # IPV6设置
 uci set network.globals.ula_prefix="ddaa:6666:8888::/48"
 uci set network.lan.ip6assign='64'
+# 使用内置的 IPv6 管理
+uci set dhcp.lan.ra_management='1'
 uci commit network
 
 # dhcp设置
