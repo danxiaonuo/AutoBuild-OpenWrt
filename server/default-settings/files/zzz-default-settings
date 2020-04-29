@@ -39,8 +39,6 @@ uci commit system
 # 设置默认管理IP地址
 uci set network.lan.ipaddr='10.8.1.1'
 uci set network.lan.netmask='255.255.255.0'
-uci set network.lan.delegate='0'
-uci set network.wan.delegate='0'
 # IPV6设置
 uci set network.globals.ula_prefix="ddaa:6666:8888::/48"
 uci set network.lan.ip6assign='64'
