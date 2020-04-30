@@ -71,7 +71,7 @@ uci set wireless.radio0.htmode='HT40'
 uci set wireless.default_radio0.ssid='danxiaonuo-2HZ'
 uci set wireless.default_radio0.encryption='sae-mixed'
 uci set wireless.default_radio0.key='password'
-uci set wireless.default_radio0.ieee80211w='1'
+uci set wireless.default_radio0.ieee80211k='1'
 uci set wireless.radio1.country='CN'
 uci set wireless.radio1.mu_beamformer='1'
 uci set wireless.radio1.channel='auto'
@@ -79,7 +79,7 @@ uci set wireless.radio1.htmode='VHT80'
 uci set wireless.default_radio1.ssid='danxiaonuo-5HZ'
 uci set wireless.default_radio1.encryption='sae-mixed'
 uci set wireless.default_radio1.key='password'
-uci set wireless.default_radio1.ieee80211w='1'
+uci set wireless.default_radio1.ieee80211k='1'
 uci commit wireless
 wifi down && wifi up
 
