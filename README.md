@@ -19,6 +19,7 @@
 - 可以支持两种种编译模式
   1. 编译Lean源码(含Lienol Package)
   2. 编译CTCGFW源码(含Lean & Lienol & CTCGFW & Ntlf9t & Zxlhhyccc Package)
+  3. 编译UOLA源码
 - 自动上传固件
 - 自动发布固件
 - 自动创建分支
