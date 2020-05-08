@@ -203,5 +203,3 @@ jobs:
       with:
         name: ${{ env.BUILD_USER }}-${{ env.DATE }}-OpenWrt-${{ env.BRANCH }}-Firmware
         path: ${{ env.FIRMWARE }}
-    
-
