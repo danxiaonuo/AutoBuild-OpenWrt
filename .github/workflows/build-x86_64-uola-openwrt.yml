@@ -169,20 +169,6 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
         echo "::set-output name=status::success"
-        
-    # 上传到分支
-    - name: 上传到分支
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BRANCH == 'true' && !cancelled() 
-      env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      run: |
-          cd openwrt/bin
-          git init
-          git config user.name $GITHUB_USER_NAME
-          git config user.email $GITHUB_USER_EMAIL
-          git add .
-          git commit -m "Update OpenWrt_"$BRANCH
-          git push --force --quiet https://${{ secrets.RELEASE_TOKEN }}@$GITHUB HEAD:OpenWrt-$BRANCH
       
     # 整理文件
     - name: 整理文件
@@ -203,3 +189,12 @@ jobs:
       with:
         name: ${{ env.BUILD_USER }}-${{ env.DATE }}-OpenWrt-${{ env.BRANCH }}-Firmware
         path: ${{ env.FIRMWARE }}
+    
+    # 微信通知
+    - name: 微信通知
+      if: steps.compile.outputs.status == 'success' && env.SEND_WECHAT_MSG == 'true' && !cancelled()
+      uses: emon100/Action-Serverchan@master
+      with:
+        SCKEY: ${{ secrets.SCKEY }}
+        text: ${{ env.BRANCH }}固件编译完成！
+        desp: 固件名称:${{ env.BRANCH }}
