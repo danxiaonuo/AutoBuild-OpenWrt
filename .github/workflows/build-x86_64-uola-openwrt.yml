@@ -44,9 +44,9 @@ env:
    # 时区设置
    TZ: Asia/Shanghai
    # 固件标签
-   TARGET: x86
+   #TARGET: x86
    # 固件版本
-   SUBTARGET: 64
+   #SUBTARGET: 64
    # 固件名称
    DEVICE: openwrt-x86-64
    # SSH 连接Actions功能
