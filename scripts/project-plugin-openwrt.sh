@@ -13,9 +13,9 @@ curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master
 curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/acl.d/luci-app-webadmin.json > package/base-files/files/usr/luci-app-webadmin.json
 sed -i '/exit 0/i\# 增加acl访问权限设置\nmv /usr/*.json /usr/share/rpcd/acl.d/' package/danxiaonuo/default-settings/files/zzz-default-settings
 # 删除 r8168 driver
-rm -rf package/ctcgfw/r8168
+#rm -rf package/ctcgfw/r8168
 # 删除 phicomm-k3screenctrl
-rm -rf package/zxlhhyccc/phicomm-k3screenctrl
+#rm -rf package/zxlhhyccc/phicomm-k3screenctrl
 # k3设置
 git clone https://github.com/lwz322/luci-app-k3screenctrl.git package/k3/luci-app-k3screenctrl
 git clone https://github.com/lwz322/k3screenctrl.git package/k3/k3screenctrl
