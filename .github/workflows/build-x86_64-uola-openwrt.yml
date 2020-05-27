@@ -44,9 +44,9 @@ env:
    # 时区设置
    TZ: Asia/Shanghai
    # 固件标签
-   #TARGET: x86
+   TARGET: x86
    # 固件版本
-   #SUBTARGET: 64
+   SUBTARGET: 64
    # 固件名称
    DEVICE: openwrt-x86-64
    # SSH 连接Actions功能
@@ -168,217 +168,27 @@ jobs:
       id: compile
       run: |
         echo -e "$(nproc) thread compile"
-        make tools/compile -j$(nproc) || make tools/compile -j1 V=s
-        make toolchain/compile -j$(nproc) || make toolchain/compile -j1 V=s
-        make target/compile -j$(nproc) || make target/compile -j1 V=s IGNORE_ERRORS=1
-        make diffconfig
-        make package/compile -j$(nproc) IGNORE_ERRORS=1 || make package/compile -j1 V=s IGNORE_ERRORS=1
-        make package/index
-        echo "::set-output name=status::success"
-    
-    # 设置环境变量
-    - name: 设置环境变量
-      if: steps.compile.outputs.status == 'success'
-      run: |
-        cd $OPENWRTROOT/bin/packages/*
-        PLATFORM=$(basename `pwd`)
-        echo "::set-env name=PLATFORM::$PLATFORM"
-        cd $OPENWRTROOT/bin/targets/*
-        TARGET=$(basename `pwd`)
-        echo "::set-env name=TARGET::$TARGET"
-        cd *
-        SUBTARGET=$(basename `pwd`)
-        echo "::set-env name=SUBTARGET::$SUBTARGET"
-        echo "::set-env name=FIRMWARE::$PWD"
-   
-   # 生成固件
-    - name: 生成固件
-      if: steps.compile.outputs.status == 'success'
-      id: generate
-      run: |
-        cd $OPENWRTROOT
-        mkdir -p files/etc/opkg
-        make package/install -j$(nproc) || make package/install -j1 V=s
-        make target/install -j$(nproc) || make target/install -j1 V=s
-        make checksum
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
-        echo "::set-env name=FILE_DATE::_$(date +"%Y%m%d%H%M")"
+        make -j$(nproc) || make -j1 V=s
         echo "::set-output name=status::success"
         
-    - name: 部署包文件服务端
-      if: steps.generate.outputs.status == 'success'
-      run: |
-        mkdir -p server/web/snapshots/targets/$TARGET/$SUBTARGET
-        cp -r $OPENWRTROOT/bin/packages server/web/snapshots
-        cp -r $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/packages server/web/snapshots/targets/$TARGET/$SUBTARGET
-        mkdir -p $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/pre-packages-server
-        cp -r server $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/pre-packages-server
-        cd $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET
-        zip -q -r packages-server.zip pre-packages-server/server
-     
-    - name: Upload Config
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: config.seed
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/config.seed
-
-    - name: Upload Images Sha256sums
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: sha256sums
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/sha256sums
-        
-    - name: Upload Packages-Server
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: packages-server
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/pre-packages-server
-        
-    - name: Upload Packages Info
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-generic.manifest
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-generic.manifest
-        
-    - name: Upload Kernel Packages
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: kernel-packages
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/packages/
-        
-    - name: Upload RootFS Archive
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-generic-rootfs.tar.gz
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-generic-rootfs.tar.gz
-
-    - name: Upload Generic SquashFS Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-rootfs-squashfs.img
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-rootfs-squashfs.img.gz
-
-    - name: Upload Combined DVD Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-combined-squashfs.img.gz
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.img.gz
-        
-    - name: Upload Combined PVE/KVM Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-combined-squashfs.qcow2
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.qcow2
-        
-    - name: Upload Combined VirtualBox Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-combined-squashfs.vdi
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.vdi
-        
-    - name: Upload Combined VMware Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-combined-squashfs.vmdk
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.vmdk
-        
-    - name: Upload GPT DVD Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-uefi-gpt-squashfs.img.gz
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.img.gz
-        
-    - name: Upload GPT PVE/KVM Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-uefi-gpt-squashfs.qcow2
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.qcow2
-        
-    - name: Upload GPT VirtualBox Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-uefi-gpt-squashfs.vdi
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.vdi
-        
-    - name: Upload GPT VMware Image
-      uses: actions/upload-artifact@master
-      if: steps.generate.outputs.status == 'success'
-      with:
-        name: ${{ env.DEVICE }}-uefi-gpt-squashfs.vmdk
-        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.vmdk
-
-    - name: Organize Files
+    # 整理文件
+    - name: 整理文件
       id: organize
-      if: steps.generate.outputs.status == 'success' && !cancelled()
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET
-        rm -rf packages pre-packages-server
-        cd $OPENWRTROOT/bin/targets/$TARGET/
-        mkdir -p uefi-images
-        mkdir -p legacy-images
-        mkdir -p other-files
-        mv $SUBTARGET/*gpt* uefi-images
-        mv $SUBTARGET/*combined* legacy-images
-        mv $SUBTARGET/* other-files
-        curl -fsSL git.io/file-transfer | sh
+        mv openwrt/.config openwrt/bin/targets/*/*
+        cd openwrt/bin/targets/*/*
+        rm -rf packages
+        rm -rf *uImage
+        echo "::set-env name=FIRMWARE::$PWD"
         echo "::set-output name=status::success"
-
-    - name: Upload Uefi Firmwares To Cowtransfer
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true'
-      run: |
-        cd $OPENWRTROOT/bin/targets/$TARGET
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ./uefi-images 2>&1 | tee cowtransfer-uefi.log
-        echo "::warning file=cowtransfer-uefi::$(cat cowtransfer-uefi.log | grep https)"
         
-    - name: Upload Legacy Firmwares To Cowtransfer
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true'
-      run: |
-        cd $OPENWRTROOT/bin/targets/$TARGET/
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ./legacy-images 2>&1 | tee cowtransfer-legacy.log
-        echo "::warning file=cowtransfer-legacy::$(cat cowtransfer-legacy.log | grep https)"
-        
-    - name: Upload Other Files To Cowtransfer
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true'
-      run: |
-        cd $OPENWRTROOT/bin/targets/$TARGET/
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ./other-files 2>&1 | tee cowtransfer-other.log
-        echo "::warning file=cowtransfer-other::$(cat cowtransfer-other.log | grep https)"
-        
-    - name: Upload Uefi Firmwares To WeTransfer
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true'
-      run: |
-        cd $OPENWRTROOT/bin/targets/$TARGET
-        ./transfer wet -s -p 16 --no-progress ./uefi-images 2>&1 | tee wetransfer-uefi.log
-        echo "::warning file=wetransfer-uefi::$(cat wetransfer-uefi.log | grep https)"
-        
-    - name: Upload Legacy Firmwares To WeTransfer
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true'
-      run: |
-        cd $OPENWRTROOT/bin/targets/$TARGET/
-        ./transfer wet -s -p 16 --no-progress ./legacy-images 2>&1 | tee wetransfer-legacy.log
-        echo "::warning file=wetransfer-legacy::$(cat wetransfer-legacy.log | grep https)"
-        
-    - name: Upload Other Files To WeTransfer
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true'
-      run: |
-        cd $OPENWRTROOT/bin/targets/$TARGET/
-        ./transfer wet -s -p 16 --no-progress ./other-files 2>&1 | tee wetransfer-other.log
-        echo "::warning file=wetransfer-other::$(cat wetransfer-other.log | grep https)"
+    # 上传固件
+    - name: 上传固件
+      uses: actions/upload-artifact@master
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with:
+        files: ${{ env.FIRMWARE }}/*
     
     # 微信通知
     - name: 微信通知
