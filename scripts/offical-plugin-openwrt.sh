@@ -33,3 +33,6 @@ sed -i '/CONFIG_TARGET_tegra/a\tools-y += ucl upx' tools/Makefile
 sed -i '/dependencies/a\$(curdir)/upx/compile := $(curdir)/ucl/compile' tools/Makefile
 # 增加自定义配置
 sed -i 's/base-files.*/default-settings &/' include/target.mk
+sed -i 's/default-settings.*/& luci-app-samba autosamba/' include/target.mk
+# 修改文件句柄数
+sed -i 's/net.netfilter.nf_conntrack_max=.*/net.netfilter.nf_conntrack_max=65535/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
