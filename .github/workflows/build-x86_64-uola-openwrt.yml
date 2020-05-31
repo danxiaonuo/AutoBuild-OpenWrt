@@ -177,13 +177,12 @@ jobs:
         echo "::set-output name=status::success"
         
     - name: 设置环境变量
-      working-directory: ./openwrt
       if: steps.compile.outputs.status == 'success'
       run: |
-        cd bin/packages/*
+        cd openwrt/bin/packages/*
         PLATFORM=$(basename `pwd`)
         echo "::set-env name=PLATFORM::$PLATFORM"
-        cd bin/targets/*
+        cd openwrt/bin/targets/*
         TARGET=$(basename `pwd`)
         echo "::set-env name=TARGET::$TARGET"
         cd *
