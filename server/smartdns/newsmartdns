@@ -7,7 +7,7 @@ config smartdns
 	option prefetch_domain '1'
 	option serve_expired '0'
 	option redirect 'none'
-	option cache_size '5120'
+	option cache_size '0'
 	option rr_ttl_min '300'
 	option rr_ttl_max '3600'
 	option seconddns_port '6553'
@@ -28,6 +28,15 @@ config smartdns
 	list old_port '6053'
 	list old_enabled '1'
 
+config server
+	option enabled '1'
+	option name 'rubyfish DNS'
+	option ip 'ea-dns.rubyfish.cn'
+	option port '853'
+	option type 'tls'
+	option server_group 'cn'
+	option blacklist_ip '0'
+	
 config server
 	option enabled '1'
 	option type 'udp'
@@ -81,6 +90,42 @@ config server
 	option port '53'
 	option server_group 'cn'
 	option blacklist_ip '0'
+	
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'AliDNS IPV6'
+	option ip '2400:3200::1'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'BaiduDNS IPV6'
+	option ip '2400:da00::6666'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option type 'udp'
+	option name 'CFIECDNS IPV6'
+	option ip '240C::6666'
+	option port '53'
+	option server_group 'cn'
+	option blacklist_ip '0'
+
+config server
+	option enabled '1'
+	option name 'rubyfish DNS'
+	option ip 'uw-dns.rubyfish.cn'
+	option port '853'
+	option type 'tls'
+	option server_group 'global'
+	option blacklist_ip '0'
 
 config server
 	option enabled '1'
@@ -121,53 +166,17 @@ config server
 config server
 	option enabled '1'
 	option type 'udp'
-	option name 'AliDNS IPV6'
-	option ip '2400:3200::1'
-	option port '53'
-	option server_group 'cn'
-	option blacklist_ip '0'
-
-config server
-	option enabled '1'
-	option type 'udp'
-	option name 'BaiduDNS IPV6'
-	option ip '2400:da00::6666'
-	option port '53'
-	option server_group 'cn'
-	option blacklist_ip '0'
-
-config server
-	option enabled '1'
-	option type 'udp'
-	option name 'CFIECDNS IPV6'
-	option ip '240C::6666'
-	option port '53'
-	option server_group 'cn'
-	option blacklist_ip '0'
-
-config server
-	option enabled '1'
-	option type 'udp'
 	option name 'GoogleDNS IPV6'
 	option ip '2001:4860:4860::8888'
 	option port '53'
 	option server_group 'global'
 	option blacklist_ip '0'
-
+	
 config server
 	option enabled '1'
 	option type 'udp'
-	option name '10086'
-	option ip '211.138.180.2'
+	option name 'Cloudflare IPV6'
+	option ip '2606:4700:4700::1111'
 	option port '53'
-	option server_group 'cn'
-	option blacklist_ip '0'
-
-config server
-	option enabled '1'
-	option type 'udp'
-	option name '10086'
-	option ip '211.138.180.3'
-	option port '53'
-	option server_group 'cn'
+	option server_group 'global'
 	option blacklist_ip '0'
