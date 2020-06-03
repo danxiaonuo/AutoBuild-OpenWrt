@@ -168,27 +168,8 @@ jobs:
       id: compile
       run: |
         echo -e "$(nproc) thread compile"
-        make tools/compile -j$(nproc) || make tools/compile -j1 V=s
-        make toolchain/compile -j$(nproc) || make toolchain/compile -j1 V=s
-        make target/compile -j$(nproc) || make target/compile -j1 V=s IGNORE_ERRORS=1
-        make diffconfig
-        make package/compile -j$(nproc) IGNORE_ERRORS=1 || make package/compile -j1 V=s IGNORE_ERRORS=1
-        make package/index
+        make -j$(nproc) || make -j1 V=s
         echo "::set-output name=status::success"
-        
-    - name: 设置环境变量
-      if: steps.compile.outputs.status == 'success'
-      run: |
-        cd openwrt/bin/packages/*
-        PLATFORM=$(basename `pwd`)
-        echo "::set-env name=PLATFORM::$PLATFORM"
-        cd openwrt/bin/targets/*
-        TARGET=$(basename `pwd`)
-        echo "::set-env name=TARGET::$TARGET"
-        cd *
-        SUBTARGET=$(basename `pwd`)
-        echo "::set-env name=SUBTARGET::$SUBTARGET"
-        echo "::set-env name=FIRMWARE::$PWD"
         
     # 整理文件
     - name: 整理文件
@@ -201,13 +182,14 @@ jobs:
         rm -rf *uImage
         echo "::set-env name=FIRMWARE::$PWD"
         echo "::set-output name=status::success"
-        
+    
     # 上传固件
     - name: 上传固件
       uses: actions/upload-artifact@master
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        files: ${{ env.FIRMWARE }}/*
+        name: ${{ env.BUILD_USER }}-${{ env.DATE }}-OpenWrt-${{ env.BRANCH }}-Firmware
+        path: ${{ env.FIRMWARE }}
     
     # 微信通知
     - name: 微信通知
