@@ -1,0 +1,399 @@
+#=================================================
+# https://github.com/danxiaonuo/AutoBuild-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: danxiaonuo
+# Blog: https://www.danxiaonuo.com
+#=================================================
+
+# 编译的名称
+name: 编译x86_64 Uola's的OpenWrt固件
+
+on: 
+  # release触发
+#  release:
+#    types: [published]
+    
+  # 编辑文件触发
+#  push:
+#    branches: 
+#      - master
+    # 路径
+#    paths:
+#      - 'config/x86_64-openwrt.config'
+#      - '.github/workflows/build-x86_64-uola-openwrt.yml'
+  
+  # 每周三的晚上3点钟编译
+  schedule:
+     - cron: '0 3 * * 3'
+  
+  # 点击★开始触发编译固件
+  watch:  
+     types: [started]
+  
+# 环境变量
+env:
+   # 源码仓库地址
+   REPO_URL: https://github.com/danxiaonuo/uola
+   # 源码分支
+   REPO_BRANCH: master
+   # 自定义feeds.conf.default文件名
+   #FEEDS_CONF: feeds.conf.default
+   # 自定义.config文件名
+   CONFIG_FILE: config/project/x86_64-uola-openwrt.config
+   # 时区设置
+   TZ: Asia/Shanghai
+   # 固件标签
+   TARGET: x86
+   # 固件版本
+   SUBTARGET: 64
+   # 固件名称
+   DEVICE: openwrt-x86-64
+   # SSH 连接Actions功能
+   SSH_ACTIONS: false
+   # 临时文件名称
+   DOWNLOAD_URL_FILE: Tmp-Link-Url.txt
+   # 上传临时文件
+   UPLOAD_TMP_LINK: true
+   # 上传 bin 目录
+   UPLOAD_BIN_DIR: false
+   # 上传固件目录
+   UPLOAD_FIRMWARE: true
+   # 上传固件到奶牛快传
+   UPLOAD_COWTRANSFER: true
+   # 上传固件到 WeTransfer
+   UPLOAD_WETRANSFER: true
+   # 上传分支
+   UPLOAD_BRANCH: true
+   # 分支
+   BRANCH: x86-64-Uola
+   # Github 用户名
+   GITHUB_USER_NAME: danxiaonuo
+   # Github 邮箱
+   GITHUB_USER_EMAIL: ${{ secrets.EMAIL }}
+   # Github
+   GITHUB: github.com/danxiaonuo/AutoBuild-OpenWrt.git
+   # 创建+上传发布
+   CREATE_RELEASE: true
+   # 编译者
+   BUILD_USER: danxiaonuo
+   # 微信通知
+   SEND_WECHAT_MSG: true
+   # 发行固件地址
+   GITHUB_RELEASE: https://github.com/danxiaonuo/AutoBuild-OpenWrt/releases
+ 
+# 任务集
+jobs:
+  build:
+    # 选择虚拟环境
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    
+    # 运行步骤
+    steps:
+    
+    # 检出master分支
+    - name: 检出master分支
+      uses: actions/checkout@master
+    
+    # 初始化系统环境
+    - name: 初始化系统环境
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+        sudo -E apt-get -qq update
+        sudo -E apt-get -y full-upgrade
+        sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler  git-core antlr3 gperf libreadline-dev ccache curl wget vim nano python python3 python3.5 python-pip python3-pip python-ply python3-ply haveged lrzsz scons ecj fastjar mkisofs
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        curl -fsSL https://raw.githubusercontent.com/danxiaonuo/AutoBuild-OpenWrt/master/server/etc/.bashrc > ~/.bashrc
+    
+    # 克隆源码
+    - name: 克隆源码
+      run: |
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        cd openwrt
+        echo "::set-env name=OPENWRTROOT::$PWD"
+        useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>Date: %cd<br/>Commit: %s")
+        echo "::set-env name=useVersionInfo::$useVersionInfo"
+        echo "::set-env name=DATE::$(TZ=CST-8 date "+%Y%m%d%H%M%S")"
+        echo "::set-env name=RELEASE_DATE::$(TZ=CST-8 date +"%Y.%m.%d-%H")"
+        
+    # 更新源
+    - name: 更新源
+      working-directory: ./openwrt
+      run:  |
+        ./scripts/feeds clean
+        ./scripts/feeds update -a
+       
+    # 安装源
+    - name: 安装源
+      working-directory: ./openwrt
+      run:  |
+        ./scripts/feeds install -a
+    
+    # 加载自定义配置文件
+    - name: 加载自定义配置文件
+      run: |
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+    
+    # 生成配置文件
+    - name: 生成配置文件
+      working-directory: ./openwrt
+      run: | 
+        make defconfig
+    
+    # 连接SSH
+    - name: 连接SSH
+      uses: P3TERX/debugger-action@master
+      if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+    
+    # 下载固件包
+    - name: 下载固件包
+      working-directory: ./openwrt
+      id: package
+      run: |
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+    
+    # 编译固件
+    - name: 编译固件
+      working-directory: ./openwrt
+      id: compile
+      run: |
+        echo -e "$(nproc) thread compile"
+        make tools/compile -j$(nproc) || make tools/compile -j1 V=s
+        make toolchain/compile -j$(nproc) || make toolchain/compile -j1 V=s
+        make target/compile -j$(nproc) || make target/compile -j1 V=s IGNORE_ERRORS=1
+        make diffconfig
+        make package/compile -j$(nproc) IGNORE_ERRORS=1 || make package/compile -j1 V=s IGNORE_ERRORS=1
+        make package/index
+        echo "::set-output name=status::success"
+        
+    - name: 设置环境变量
+      if: steps.compile.outputs.status == 'success'
+      run: |
+        cd $OPENWRTROOT/bin/packages/*
+        PLATFORM=$(basename `pwd`)
+        echo "::set-env name=PLATFORM::$PLATFORM"
+        cd $OPENWRTROOT/bin/targets/*
+        TARGET=$(basename `pwd`)
+        echo "::set-env name=TARGET::$TARGET"
+        cd *
+        SUBTARGET=$(basename `pwd`)
+        echo "::set-env name=SUBTARGET::$SUBTARGET"
+        echo "::set-env name=FIRMWARE::$PWD"
+
+    - name: 获取固件
+      if: steps.compile.outputs.status == 'success'
+      id: generate
+      run: |
+        cd $OPENWRTROOT
+        make package/install -j$(nproc) || make package/install -j1 V=s
+        make target/install -j$(nproc) || make target/install -j1 V=s
+        make checksum
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
+        echo "::set-env name=FILE_DATE::_$(date +"%Y%m%d%H%M")"
+        echo "::set-output name=status::success"
+        
+    - name: 部署 Packages-Server
+      if: steps.generate.outputs.status == 'success'
+      run: |
+        mkdir -p server/web/snapshots/targets/$TARGET/$SUBTARGET
+        cp -r $OPENWRTROOT/bin/packages server/web/snapshots
+        cp -r $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/packages server/web/snapshots/targets/$TARGET/$SUBTARGET
+        mkdir -p $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/pre-packages-server
+        cp -r server $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/pre-packages-server
+        cd $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET
+        zip -q -r packages-server.zip pre-packages-server/server
+        
+    - name: 上传 Config
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: config.seed
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/config.seed
+
+    - name: 上传 Images Sha256sums
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: sha256sums
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/sha256sums
+        
+    - name: 上传 Packages-Server
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: packages-server
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/pre-packages-server
+        
+    - name: 上传 Packages Info
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-generic.manifest
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-generic.manifest
+        
+    - name: 上传 Kernel Packages
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: kernel-packages
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/packages/
+        
+    - name: 上传 RootFS Archive
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-generic-rootfs.tar.gz
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-generic-rootfs.tar.gz
+
+    - name: 上传 Generic SquashFS Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-rootfs-squashfs.img
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-rootfs-squashfs.img.gz
+
+    - name: 上传 Combined DVD Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-combined-squashfs.img.gz
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.img.gz
+        
+    - name: 上传 Combined PVE/KVM Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-combined-squashfs.qcow2
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.qcow2
+        
+    - name: 上传 Combined VirtualBox Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-combined-squashfs.vdi
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.vdi
+        
+    - name: 上传 Combined VMware Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-combined-squashfs.vmdk
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.vmdk
+
+    - name: 上传 GPT DVD Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-uefi-gpt-squashfs.img.gz
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.img.gz
+        
+    - name: 上传 GPT PVE/KVM Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-uefi-gpt-squashfs.qcow2
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.qcow2
+        
+    - name: 上传 GPT VirtualBox Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-uefi-gpt-squashfs.vdi
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.vdi
+        
+    - name: 上传 GPT VMware Image
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: ${{ env.DEVICE }}-uefi-gpt-squashfs.vmdk
+        path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.vmdk
+        
+    - name: 整理文件
+      id: organize
+      if: steps.generate.outputs.status == 'success' && !cancelled()
+      run: |
+        cd $OPENWRTROOT
+        zip -r dl.zip dl
+        cd $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET
+        rm -rf packages pre-packages-server
+        cd $OPENWRTROOT/bin/targets/$TARGET/
+        mkdir -p uefi-images
+        mkdir -p legacy-images
+        mkdir -p other-files
+        mv $SUBTARGET/*gpt* uefi-images
+        mv $SUBTARGET/*combined* legacy-images
+        mv $SUBTARGET/* other-files
+        curl -fsSL git.io/file-transfer | sh
+        echo "::set-output name=status::success"
+    - name: Upload Uefi Firmwares To Cowtransfer
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true'
+      run: |
+        cd $OPENWRTROOT/bin/targets/$TARGET
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ./uefi-images 2>&1 | tee cowtransfer-uefi.log
+        echo "::warning file=cowtransfer-uefi::$(cat cowtransfer-uefi.log | grep https)"
+        
+    - name: Upload Legacy Firmwares To Cowtransfer
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true'
+      run: |
+        cd $OPENWRTROOT/bin/targets/$TARGET/
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ./legacy-images 2>&1 | tee cowtransfer-legacy.log
+        echo "::warning file=cowtransfer-legacy::$(cat cowtransfer-legacy.log | grep https)"
+        
+    - name: Upload Other Files To Cowtransfer
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true'
+      run: |
+        cd $OPENWRTROOT/bin/targets/$TARGET/
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ./other-files 2>&1 | tee cowtransfer-other.log
+        echo "::warning file=cowtransfer-other::$(cat cowtransfer-other.log | grep https)"
+        
+    - name: Upload Uefi Firmwares To WeTransfer
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true'
+      run: |
+        cd $OPENWRTROOT/bin/targets/$TARGET
+        ./transfer wet -s -p 16 --no-progress ./uefi-images 2>&1 | tee wetransfer-uefi.log
+        echo "::warning file=wetransfer-uefi::$(cat wetransfer-uefi.log | grep https)"
+        
+    - name: Upload Legacy Firmwares To WeTransfer
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true'
+      run: |
+        cd $OPENWRTROOT/bin/targets/$TARGET/
+        ./transfer wet -s -p 16 --no-progress ./legacy-images 2>&1 | tee wetransfer-legacy.log
+        echo "::warning file=wetransfer-legacy::$(cat wetransfer-legacy.log | grep https)"
+        
+    - name: Upload Other Files To WeTransfer
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true'
+      run: |
+        cd $OPENWRTROOT/bin/targets/$TARGET/
+        ./transfer wet -s -p 16 --no-progress ./other-files 2>&1 | tee wetransfer-other.log
+        echo "::warning file=wetransfer-other::$(cat wetransfer-other.log | grep https)"
+        
+    - name: Upload DL To CowTransfer
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
+      run: |
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${OPENWRTROOT}/dl.zip 2>&1 | tee cowtransfer-dl.log
+        echo "::warning file=DL-cowtransfer.com::$(cat cowtransfer-dl.log | grep https)"
+        
+    - name: Upload DL To WeTransfer
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true' && !cancelled()
+      run: |
+        ./transfer wet -s -p 16 --no-progress ${OPENWRTROOT}/dl.zip 2>&1 | tee wetransfer-dl.log
+        echo "::warning file=DL-wetransfer.com::$(cat wetransfer-dl.log | grep https)"
+    
+    # 微信通知
+    - name: 微信通知
+      if: steps.compile.outputs.status == 'success' && env.SEND_WECHAT_MSG == 'true' && !cancelled()
+      uses: emon100/Action-Serverchan@master
+      with:
+        SCKEY: ${{ secrets.SCKEY }}
+        text: ${{ env.BRANCH }}固件编译完成！
+        desp: 固件名称:${{ env.BRANCH }}
