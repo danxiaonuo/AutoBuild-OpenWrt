@@ -29,8 +29,8 @@ on:
      - cron: '0 3 * * 3'
   
   # 点击★开始触发编译固件
-  watch:  
-     types: [started]
+  #watch:  
+  #   types: [started]
          
 # 环境变量
 env:
