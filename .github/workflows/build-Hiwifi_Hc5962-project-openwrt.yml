@@ -25,8 +25,8 @@ on:
 #      - '.github/workflows/build-Hiwifi_Hc5962-project-openwrt.yml'
   
   # 每周三的晚上3点钟编译
-  schedule:
-     - cron: '0 3 * * 3'
+  #schedule:
+  #   - cron: '0 3 * * 3'
   
   # 点击★开始触发编译固件
   watch:  
