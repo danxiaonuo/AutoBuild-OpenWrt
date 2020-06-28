@@ -20,7 +20,7 @@ on:
 #      - master
     # 路径
 #    paths:
-#      - 'config/project/hiwifi_hc5962-uola-openwrt.config'
+#      - 'config/uola/hiwifi_hc5962-uola-openwrt.config'
 #      - '.github/workflows/build-hiwifi_hc5962-uola-openwrt.yml'
   
   # 每周三的晚上3点钟编译
@@ -40,7 +40,7 @@ env:
    # 自定义feeds.conf.default文件名
    #FEEDS_CONF: feeds.conf.default
    # 自定义.config文件名
-   CONFIG_FILE: config/project/hiwifi_hc5962-uola-openwrt.config
+   CONFIG_FILE: config/uola/hiwifi_hc5962-uola-openwrt.config
    # 时区设置
    TZ: Asia/Shanghai
    # SSH 连接Actions功能
