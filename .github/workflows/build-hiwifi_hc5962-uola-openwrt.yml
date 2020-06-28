@@ -21,7 +21,7 @@ on:
     # 路径
 #    paths:
 #      - 'config/project/hiwifi_hc5962-uola-openwrt.config'
-#      - '.github/workflows/build-hc5962-uola-openwrt.yml'
+#      - '.github/workflows/build-hiwifi_hc5962-uola-openwrt.yml'
   
   # 每周三的晚上3点钟编译
   schedule:
