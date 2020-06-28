@@ -147,6 +147,8 @@ jobs:
       working-directory: ./openwrt
       run: | 
         make defconfig
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
     
     # 连接SSH
     - name: 连接SSH
