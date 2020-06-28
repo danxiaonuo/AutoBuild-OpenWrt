@@ -43,6 +43,8 @@ env:
    CONFIG_FILE: config/uola/psg1208-uola-openwrt.config
    # 时区设置
    TZ: Asia/Shanghai
+   # 固件名称
+   DEVICE_NAME: psg1208
    # SSH 连接Actions功能
    SSH_ACTIONS: false
    # 临时文件名称
@@ -141,8 +143,6 @@ jobs:
       working-directory: ./openwrt
       run: | 
         make defconfig
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
     
     # 连接SSH
     - name: 连接SSH
