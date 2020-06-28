@@ -112,6 +112,7 @@ jobs:
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
+        echo "::set-env name=OPENWRTROOT::$PWD"
         useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>Date: %cd<br/>Commit: %s")
         echo "::set-env name=useVersionInfo::$useVersionInfo"
         echo "::set-env name=DATE::$(TZ=CST-8 date "+%Y%m%d%H%M%S")"
@@ -141,8 +142,6 @@ jobs:
       working-directory: ./openwrt
       run: | 
         make defconfig
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
     
     # 连接SSH
     - name: 连接SSH
@@ -166,14 +165,16 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
         echo "::set-output name=status::success"
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
         
     - name: 设置环境变量
       if: steps.compile.outputs.status == 'success'
       run: |
-        cd openwrt/bin/packages/*
+        cd $OPENWRTROOT/bin/packages/*
         PLATFORM=$(basename `pwd`)
         echo "::set-env name=PLATFORM::$PLATFORM"
-        cd openwrt/bin/targets/*
+        cd $OPENWRTROOT/bin/targets/*
         TARGET=$(basename `pwd`)
         echo "::set-env name=TARGET::$TARGET"
         cd *
