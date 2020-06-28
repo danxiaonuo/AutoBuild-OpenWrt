@@ -43,8 +43,6 @@ env:
    CONFIG_FILE: config/uola/psg1208-uola-openwrt.config
    # 时区设置
    TZ: Asia/Shanghai
-   # 固件名称
-   DEVICE_NAME: psg1208
    # SSH 连接Actions功能
    SSH_ACTIONS: false
    # 临时文件名称
@@ -98,8 +96,6 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
       run: |
         docker rmi `docker images -q`
-        # sudo swapoff /swapfile
-        # sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
         sudo -E apt-get -qq update
@@ -114,6 +110,7 @@ jobs:
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
+        echo "::set-env name=OPENWRTROOT::$PWD"
         useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>Date: %cd<br/>Commit: %s")
         echo "::set-env name=useVersionInfo::$useVersionInfo"
         echo "::set-env name=DATE::$(TZ=CST-8 date "+%Y%m%d%H%M%S")"
@@ -166,14 +163,16 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
         echo "::set-output name=status::success"
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
         
     - name: 设置环境变量
       if: steps.compile.outputs.status == 'success'
       run: |
-        cd openwrt/bin/packages/*
+        cd $OPENWRTROOT/bin/packages/*
         PLATFORM=$(basename `pwd`)
         echo "::set-env name=PLATFORM::$PLATFORM"
-        cd openwrt/bin/targets/*
+        cd $OPENWRTROOT/bin/targets/*
         TARGET=$(basename `pwd`)
         echo "::set-env name=TARGET::$TARGET"
         cd *
