@@ -180,8 +180,8 @@ jobs:
         SUBTARGET=$(basename `pwd`)
         echo "::set-env name=SUBTARGET::$SUBTARGET"
         echo "::set-env name=FIRMWARE::$PWD"
-		
-     # 上传到分支
+        
+    # 上传到分支
     - name: 上传到分支
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BRANCH == 'true' && !cancelled() 
       env:
@@ -214,7 +214,7 @@ jobs:
       run: |
         echo ::set-env name=RELEASE_TAG::"Uola-${{ env.DEVICE_NAME }}-${{ env.RELEASE_DATE }}"
         echo "::set-output name=status::success"
-		
+        	
     # 上传固件
     - name: 上传固件
       uses: actions/upload-artifact@master
