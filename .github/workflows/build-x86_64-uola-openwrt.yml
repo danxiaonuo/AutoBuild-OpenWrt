@@ -187,119 +187,130 @@ jobs:
         echo "::set-env name=SUBTARGET::$SUBTARGET"
         echo "::set-env name=FIRMWARE::$PWD"
         
-    - name: 上传 Config
+    - name: Deploy Packages-Server
+      if: steps.generate.outputs.status == 'success'
+      run: |
+        mkdir -p server/web/snapshots/targets/$TARGET/$SUBTARGET
+        cp -r $OPENWRTROOT/bin/packages server/web/snapshots
+        cp -r $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/packages server/web/snapshots/targets/$TARGET/$SUBTARGET
+        mkdir -p $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/pre-packages-server
+        cp -r server $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/pre-packages-server
+        cd $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET
+        zip -q -r packages-server.zip pre-packages-server/server
+        
+    - name: Upload Config
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: config.seed
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/config.seed
 
-    - name: 上传 Images Sha256sums
+    - name: Upload Images Sha256sums
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: sha256sums
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/sha256sums
         
-    - name: 上传 Packages-Server
+    - name: Upload Packages-Server
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: packages-server
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/pre-packages-server
         
-    - name: 上传 Packages Info
+    - name: Upload Packages Info
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-generic.manifest
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-generic.manifest
         
-    - name: 上传 Kernel Packages
+    - name: Upload Kernel Packages
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: kernel-packages
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/packages/
         
-    - name: 上传 RootFS Archive
+    - name: Upload RootFS Archive
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-generic-rootfs.tar.gz
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-generic-rootfs.tar.gz
 
-    - name: 上传 Generic SquashFS Image
+    - name: Upload Generic SquashFS Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-rootfs-squashfs.img
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-rootfs-squashfs.img.gz
 
-    - name: 上传 Combined DVD Image
+    - name: Upload Combined DVD Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-combined-squashfs.img.gz
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.img.gz
         
-    - name: 上传 Combined PVE/KVM Image
+    - name: Upload Combined PVE/KVM Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-combined-squashfs.qcow2
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.qcow2
         
-    - name: 上传 Combined VirtualBox Image
+    - name: Upload Combined VirtualBox Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-combined-squashfs.vdi
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.vdi
         
-    - name: 上传 Combined VMware Image
+    - name: Upload Combined VMware Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-combined-squashfs.vmdk
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-combined-squashfs.vmdk
 
-    - name: 上传 GPT DVD Image
+    - name: Upload GPT DVD Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-uefi-gpt-squashfs.img.gz
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.img.gz
         
-    - name: 上传 GPT PVE/KVM Image
+    - name: Upload GPT PVE/KVM Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-uefi-gpt-squashfs.qcow2
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.qcow2
         
-    - name: 上传 GPT VirtualBox Image
+    - name: Upload GPT VirtualBox Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-uefi-gpt-squashfs.vdi
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.vdi
         
-    - name: 上传 GPT VMware Image
+    - name: Upload GPT VMware Image
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
       with:
         name: ${{ env.DEVICE }}-uefi-gpt-squashfs.vmdk
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/${{ env.DEVICE }}-uefi-gpt-squashfs.vmdk
-        
-    - name: 整理文件
+
+    - name: Organize Files
       id: organize
       if: steps.generate.outputs.status == 'success' && !cancelled()
       run: |
         cd $OPENWRTROOT
         zip -r dl.zip dl
         cd $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET
-        rm -rf packages
+        rm -rf packages pre-packages-server
         cd $OPENWRTROOT/bin/targets/$TARGET/
         mkdir -p uefi-images
         mkdir -p legacy-images
@@ -309,7 +320,6 @@ jobs:
         mv $SUBTARGET/* other-files
         curl -fsSL git.io/file-transfer | sh
         echo "::set-output name=status::success"
-        
     - name: Upload Uefi Firmwares To Cowtransfer
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true'
       run: |
@@ -363,12 +373,3 @@ jobs:
       run: |
         ./transfer wet -s -p 16 --no-progress ${OPENWRTROOT}/dl.zip 2>&1 | tee wetransfer-dl.log
         echo "::warning file=DL-wetransfer.com::$(cat wetransfer-dl.log | grep https)"
-    
-    # 微信通知
-    - name: 微信通知
-      if: steps.compile.outputs.status == 'success' && env.SEND_WECHAT_MSG == 'true' && !cancelled()
-      uses: emon100/Action-Serverchan@master
-      with:
-        SCKEY: ${{ secrets.SCKEY }}
-        text: ${{ env.BRANCH }}固件编译完成！
-        desp: 固件名称:${{ env.BRANCH }}
