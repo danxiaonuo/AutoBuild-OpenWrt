@@ -169,8 +169,6 @@ jobs:
       run: |
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
         echo "::set-output name=status::success"
         
     - name: 设置环境变量
@@ -299,7 +297,7 @@ jobs:
         cd $OPENWRTROOT
         zip -r dl.zip dl
         cd $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET
-        rm -rf packages pre-packages-server
+        rm -rf packages
         cd $OPENWRTROOT/bin/targets/$TARGET/
         mkdir -p uefi-images
         mkdir -p legacy-images
@@ -309,6 +307,7 @@ jobs:
         mv $SUBTARGET/* other-files
         curl -fsSL git.io/file-transfer | sh
         echo "::set-output name=status::success"
+        
     - name: Upload Uefi Firmwares To Cowtransfer
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true'
       run: |
