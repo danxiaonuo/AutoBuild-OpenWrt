@@ -173,7 +173,7 @@ jobs:
         cd openwrt/bin/packages/*
         PLATFORM=$(basename `pwd`)
         echo "::set-env name=PLATFORM::$PLATFORM"
-        cd $OPENWRTROOT/bin/targets/*
+        cd openwrt/bin/targets/*
         TARGET=$(basename `pwd`)
         echo "::set-env name=TARGET::$TARGET"
         cd *
