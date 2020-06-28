@@ -20,7 +20,7 @@ on:
 #      - master
     # 路径
 #    paths:
-#      - 'config/project/x86_64-uola-openwrt.config'
+#      - 'config/uola/x86_64-uola-openwrt.config'
 #      - '.github/workflows/build-x86_64-uola-openwrt.yml'
   
   # 每周三的晚上3点钟编译
