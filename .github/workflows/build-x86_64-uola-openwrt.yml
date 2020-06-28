@@ -168,12 +168,9 @@ jobs:
       id: compile
       run: |
         echo -e "$(nproc) thread compile"
-        make tools/compile -j$(nproc) || make tools/compile -j1 V=s
-        make toolchain/compile -j$(nproc) || make toolchain/compile -j1 V=s
-        make target/compile -j$(nproc) || make target/compile -j1 V=s IGNORE_ERRORS=1
-        make diffconfig
-        make package/compile -j$(nproc) IGNORE_ERRORS=1 || make package/compile -j1 V=s IGNORE_ERRORS=1
-        make package/index
+        make -j$(nproc) || make -j1 V=s
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
         echo "::set-output name=status::success"
         
     - name: 设置环境变量
@@ -189,30 +186,6 @@ jobs:
         SUBTARGET=$(basename `pwd`)
         echo "::set-env name=SUBTARGET::$SUBTARGET"
         echo "::set-env name=FIRMWARE::$PWD"
-
-    - name: 获取固件
-      if: steps.compile.outputs.status == 'success'
-      id: generate
-      run: |
-        cd $OPENWRTROOT
-        make package/install -j$(nproc) || make package/install -j1 V=s
-        make target/install -j$(nproc) || make target/install -j1 V=s
-        make checksum
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
-        echo "::set-env name=FILE_DATE::_$(date +"%Y%m%d%H%M")"
-        echo "::set-output name=status::success"
-        
-    - name: 部署 Packages-Server
-      if: steps.generate.outputs.status == 'success'
-      run: |
-        mkdir -p server/web/snapshots/targets/$TARGET/$SUBTARGET
-        cp -r $OPENWRTROOT/bin/packages server/web/snapshots
-        cp -r $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/packages server/web/snapshots/targets/$TARGET/$SUBTARGET
-        mkdir -p $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/pre-packages-server
-        cp -r server $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/pre-packages-server
-        cd $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET
-        zip -q -r packages-server.zip pre-packages-server/server
         
     - name: 上传 Config
       uses: actions/upload-artifact@master
