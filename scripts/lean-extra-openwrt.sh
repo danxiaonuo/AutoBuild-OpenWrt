@@ -27,10 +27,10 @@ sed -i '/channel="36"/a\\t\t\tssid="danxiaonuo-5HZ"' package/kernel/mac80211/fil
 # 修改默认 SSID
 sed -i 's/OpenWrt/${ssid}/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 # 修改默认密钥
-sed -i 's/none/sae-mixed/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
+sed -i 's/none/psk2/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 # 增加默认WIFI密码
 sed -i '/set wireless.radio${devidx}.hwmode=11/a\\t\t\tset wireless.radio${devidx}.country=CN\n\t\t\tset wireless.radio${devidx}.legacy_rates=1\n\t\t\tset wireless.radio${devidx}.mu_beamformer=1' package/kernel/mac80211/files/lib/wifi/mac80211.sh
-sed -i '/set wireless.default_radio${devidx}.encryption=sae-mixed/a\\t\t\tset wireless.default_radio${devidx}.key=password\n\t\t\tset wireless.default_radio${devidx}.ieee80211k=1' package/kernel/mac80211/files/lib/wifi/mac80211.sh
+sed -i '/set wireless.default_radio${devidx}.encryption=psk2/a\\t\t\tset wireless.default_radio${devidx}.key=password\n\t\t\tset wireless.default_radio${devidx}.ieee80211k=1' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 # 芝麻开门
 sed -i '/exit 0/i\# 芝麻开门\necho 0xDEADBEEF > /etc/config/google_fu_mode' package/lean/default-settings/files/zzz-default-settings
 # vim设置
