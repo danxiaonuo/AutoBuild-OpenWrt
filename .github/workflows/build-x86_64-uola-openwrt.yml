@@ -177,12 +177,15 @@ jobs:
       if: steps.compile.outputs.status == 'success'
       run: |
         cd $OPENWRTROOT/bin/packages/*
+        ls -ll
         PLATFORM=$(basename `pwd`)
         echo "::set-env name=PLATFORM::$PLATFORM"
         cd $OPENWRTROOT/bin/targets/*
+        ls -ll
         TARGET=$(basename `pwd`)
         echo "::set-env name=TARGET::$TARGET"
         cd *
+        ls -ll
         SUBTARGET=$(basename `pwd`)
         echo "::set-env name=SUBTARGET::$SUBTARGET"
         echo "::set-env name=FIRMWARE::$PWD"
@@ -315,6 +318,7 @@ jobs:
         mkdir -p uefi-images
         mkdir -p legacy-images
         mkdir -p other-files
+        ls -ll
         mv $SUBTARGET/*gpt* uefi-images
         mv $SUBTARGET/*combined* legacy-images
         mv $SUBTARGET/* other-files
