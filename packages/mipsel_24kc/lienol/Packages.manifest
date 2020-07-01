@@ -1,0 +1,13 @@
+Package: tcping
+Version: 0.1-2
+Depends: libc
+Source: feeds/lienol/package/tcping
+SourceName: tcping
+Section: net
+Architecture: mipsel_24kc
+Installed-Size: 3384
+Filename: tcping_0.1-2_mipsel_24kc.ipk
+Size: 4044
+SHA256sum: 7efe326b16832d08d2e31d72719d5d72b7d00361cfcb6eccfec12586ba69d935
+Description:  tcping measures the latency of a tcp-connection
+
