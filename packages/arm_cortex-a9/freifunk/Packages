@@ -1,0 +1,22 @@
+Package: luci-app-meshwizard
+Version: git-20.139.75442-05760f0
+Depends: libc, meshwizard
+Section: luci
+Architecture: all
+Installed-Size: 2786
+Filename: luci-app-meshwizard_git-20.139.75442-05760f0_all.ipk
+Size: 3637
+SHA256sum: 60b6824455c973e5178c83a62cfca0777382cb290d392c07d4e03d90720683df
+Description:  Shellscript based wizard to setup mesh networks
+
+Package: meshwizard
+Version: 0.3.3
+Depends: libc, firewall
+Section: luci
+Architecture: arm_cortex-a9
+Installed-Size: 13247
+Filename: meshwizard_0.3.3_arm_cortex-a9.ipk
+Size: 13997
+SHA256sum: acb811e50ae7b533bc69f8305e0bc43e9e420e1cedcd09713061fa59c16058f3
+Description:  A shellscript based wizard to simplify the setup of a typical mesh node (e.g. for Freifunk.net)
+
