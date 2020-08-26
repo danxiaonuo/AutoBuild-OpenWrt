@@ -1,0 +1,4 @@
+src-git packages https://github.com/danxiaonuo/packages.git^56e543f
+src-git luci https://github.com/danxiaonuo/luci.git^c17ce13
+src-git routing https://github.com/danxiaonuo/routing.git^a967929
+src-git telephony https://git.openwrt.org/feed/telephony.git^061140e

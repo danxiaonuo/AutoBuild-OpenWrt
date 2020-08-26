@@ -1,0 +1,496 @@
+Package: bash
+Version: 5.0-4
+Depends: libc, libncurses6, libreadline8
+License: GPL-3.0-or-later
+Section: utils
+CPE-ID: cpe:/a:gnu:bash
+Architecture: mipsel_24kc
+Installed-Size: 268644
+Filename: bash_5.0-4_mipsel_24kc.ipk
+Size: 269467
+SHA256sum: efe20fc7fb8901488bcccdd5bd186adfe0f8370824e6077fcb66f49c81a01b9d
+Description:  Bash is an sh-compatible command language interpreter that executes
+ commands read from the standard input or from a file. Bash also
+ incorporates useful features from the Korn and C shells (ksh and csh).
+
+Package: btrfs-progs
+Version: 5.6-1
+Depends: libc, libattr, libuuid1, zlib, libblkid1, liblzo2, libpthread, kmod-fs-btrfs
+License: GPL-2.0-only
+Section: utils
+Architecture: mipsel_24kc
+Installed-Size: 1158872
+Filename: btrfs-progs_5.6-1_mipsel_24kc.ipk
+Size: 1159789
+SHA256sum: 1b0ec427f3001401a8f95122d6eb2dc7a5f89a91406cc1d023bbe93764b60b0e
+Description:  Btrfs is a new copy on write filesystem for Linux aimed at implementing
+ advanced features while focusing on fault tolerance, repair and easy
+ administration. Initially developed by Oracle, Btrfs is licensed under the
+ GPL and open for contribution from anyone.
+
+Package: cgi-io
+Version: 19
+Depends: libc, libubox20191228, libubus20191227
+License: GPL-2.0-or-later
+Section: net
+Architecture: mipsel_24kc
+Installed-Size: 7526
+Filename: cgi-io_19_mipsel_24kc.ipk
+Size: 8306
+SHA256sum: b1d753cdad0fdca8107848eba0132ec44c5bea4a8741ab7c5ff589f33fcfadb6
+Description:  This package contains an cgi utility that is useful for up/downloading files
+
+Package: coreutils-base64
+Version: 8.32-1
+Depends: libc, coreutils
+Alternatives: 300:/bin/base64:/usr/bin/gnu-base64
+License: GPL-3.0-or-later
+Section: utils
+CPE-ID: cpe:/a:gnu:coreutils
+Architecture: mipsel_24kc
+Installed-Size: 17719
+Filename: coreutils-base64_8.32-1_mipsel_24kc.ipk
+Size: 18522
+SHA256sum: 0c464e05caa2baf91e638dc22ef20a2888dedb3e602a4eed07a93cd338bca3d1
+Description:  Full version of standard GNU base64 utility.
+
+Package: coreutils-nohup
+Version: 8.32-1
+Depends: libc, coreutils
+Alternatives: 300:/usr/bin/nohup:/usr/bin/gnu-nohup
+License: GPL-3.0-or-later
+Section: utils
+CPE-ID: cpe:/a:gnu:coreutils
+Architecture: mipsel_24kc
+Installed-Size: 16194
+Filename: coreutils-nohup_8.32-1_mipsel_24kc.ipk
+Size: 16957
+SHA256sum: 1e048731532c00303716ad9d19f4af34ad01b475a604c9c2f4dbefb60616ba1b
+Description:  Full version of standard GNU nohup utility.
+
+Package: coreutils
+Version: 8.32-1
+Depends: libc
+License: GPL-3.0-or-later
+Section: utils
+CPE-ID: cpe:/a:gnu:coreutils
+Architecture: mipsel_24kc
+Installed-Size: 105
+Filename: coreutils_8.32-1_mipsel_24kc.ipk
+Size: 978
+SHA256sum: 3b478d9b5839900d7bbbc758e348ac0ad818bb1db2fe2bec567e5071ebd2a838
+Description:  Full versions of standard GNU utilities. If an equivalent Busybox applet is
+ available, you should consider compiling that instead as Busybox applets are
+ usually smaller, at the expense of reduced functionality.
+
+Package: ddns-scripts
+Version: 2.7.8-24
+License: GPL-2.0
+Section: net
+Architecture: all
+Installed-Size: 15047
+Filename: ddns-scripts_2.7.8-24_all.ipk
+Size: 16122
+SHA256sum: 81f3eada7ea2e36f6e5e4ede857b4fa6f820bc17e655ad9f4d5f388909e0770e
+Description:  Dynamic DNS Client scripts (with IPv6 support) - Info: https://openwrt.org/docs/guide-user/services/ddns/client
+
+Package: etherwake
+Version: 1.09-5
+Depends: libc
+Section: net
+Architecture: mipsel_24kc
+Installed-Size: 5016
+Filename: etherwake_1.09-5_mipsel_24kc.ipk
+Size: 5929
+SHA256sum: 8a25056f7b866cb182db0ed36c7523127fde077fe8306d108ab845638cca92e3
+Description:  You can wake up WOL compliant Computers which have been powered down to
+ sleep mode or start WOL compliant Computers with a BIOS feature.
+ WOL is an abbreviation for Wake-on-LAN. It is a standard that allows you
+ to turn on a computer from another location over a network connection.
+ ether-wake also supports WOL passwords.
+
+Package: gzip
+Version: 1.10-3
+Depends: libc
+Alternatives: 300:/bin/gunzip:/usr/libexec/gunzip-gnu, 300:/bin/gzip:/usr/libexec/gzip-gnu, 300:/bin/zcat:/usr/libexec/zcat-gnu
+License: GPL-3.0-or-later
+Section: utils
+CPE-ID: cpe:/a:gnu:gzip
+Architecture: mipsel_24kc
+Installed-Size: 35591
+Filename: gzip_1.10-3_mipsel_24kc.ipk
+Size: 36474
+SHA256sum: 05e02a33e10c55cfa605aa37302840e2bcce3cc5ab7c31ca7768109911f69b9e
+Description:  gzip (GNU zip) is a compression utility designed to be a replacement for compress.
+
+Package: htop
+Version: 2.2.0-3
+Depends: libc, libncurses6
+License: GPL-2.0
+Section: admin
+CPE-ID: cpe:/a:htop:htop
+Architecture: mipsel_24kc
+Installed-Size: 51267
+Filename: htop_2.2.0-3_mipsel_24kc.ipk
+Size: 52213
+SHA256sum: 63e085080467e463d6531f61636dd4e838b3d2d06c974a20cc8e2f5ba4175ceb
+Description:  Htop is an ncursed-based process viewer similar to top, but
+ it allows to scroll the list vertically and horizontally to
+ see all processes and their full command lines.
+
+Package: libattr
+Version: 2.4.48-2
+Depends: libc
+License: LGPL-2.1-or-later
+Section: libs
+Architecture: mipsel_24kc
+Installed-Size: 5759
+Filename: libattr_2.4.48-2_mipsel_24kc.ipk
+Size: 6534
+SHA256sum: 285415d27c2a7659542a81f06b3ac72273ccd1f746cf4df7245d380a9daf6a2b
+Description:  Extended attributes support
+ This package provides libattr
+
+Package: libcap-ng
+Version: 0.7.10-1
+Depends: libc
+License: GPL-2.0-or-later LGPL-2.1-or-later
+Section: libs
+Architecture: mipsel_24kc
+Installed-Size: 5954
+Filename: libcap-ng_0.7.10-1_mipsel_24kc.ipk
+Size: 6710
+SHA256sum: 7c22cd24dd5e25eb1cc022d4237f9effcb7b74283e0d7040a26fc880631144dd
+Description:  POSIX capabilities library library
+
+Package: libcap
+Version: 2.36-1
+Depends: libc
+License: GPL-2.0-only
+Section: libs
+Architecture: mipsel_24kc
+Installed-Size: 9699
+Filename: libcap_2.36-1_mipsel_24kc.ipk
+Size: 10447
+SHA256sum: 4018d985c7799bc7b56c69233b3ec95800a8e899d11a11b5d310448b8295ac65
+Description:  Linux capabilities library library
+
+Package: libev
+Version: 4.31-1
+Depends: libc
+License: BSD-2-Clause
+Section: libs
+Architecture: mipsel_24kc
+Installed-Size: 25157
+Filename: libev_4.31-1_mipsel_24kc.ipk
+Size: 25861
+SHA256sum: c68dafcb96ada9700169c67be32fd13482585a32963d5296d162e4135945b8e8
+Description:  A full-featured and high-performance event loop that is loosely modelled after
+ libevent, but without its limitations and bugs.
+
+Package: libopenldap
+Version: 2.4.48-1
+Depends: libc, libopenssl1.1, libsasl2, libpthread
+License: OLDAP-2.8
+Section: net
+CPE-ID: cpe:/a:openldap:openldap
+Architecture: mipsel_24kc
+Installed-Size: 211895
+Filename: libopenldap_2.4.48-1_mipsel_24kc.ipk
+Size: 212954
+SHA256sum: f41fb7fe21f2c41e396aab6307d32eb9f59ee816af40f8ee88ee61b571022c27
+Description:  OpenLDAP Software is an open source implementation of the Lightweight Directory Access Protocol (LDAP). This package contains the shared LDAP client libraries, needed by other programs.
+
+Package: libsasl2
+Version: 2.1.27-3
+Depends: libc, libopenssl1.1
+License: BSD-4c BSD
+Section: libs
+CPE-ID: cpe:/a:cmu:cyrus-sasl
+Architecture: mipsel_24kc
+Installed-Size: 75853
+Filename: libsasl2_2.1.27-3_mipsel_24kc.ipk
+Size: 76743
+SHA256sum: ef065679d75b4de7da90b17cc88cd1a06d83dc3f884766bbdc5b6e5b1b54ae25
+Description:  A general purpose authentication library
+
+Package: libsodium
+Version: 1.0.18-3
+Depends: libc
+License: ISC
+Section: libs
+Architecture: mipsel_24kc
+Installed-Size: 142001
+Filename: libsodium_1.0.18-3_mipsel_24kc.ipk
+Size: 143069
+SHA256sum: 18eb0a683341feb3e9b896baf7de1180f47ddc5c1405a1807564741db048a338
+Description:  NaCl (pronounced "salt") is a new easy-to-use high-speed software library for network communication, encryption, decryption, signatures, etc.
+ NaCl's goal is to provide all of the core operations needed to build higher-level cryptographic tools.
+ Sodium is a portable, cross-compilable, installable, packageable fork of NaCl (based on the latest released upstream version nacl-20110221), with a compatible API.
+ The design choices, particularly in regard to the Curve25519 Diffie-Hellman function, emphasize security (whereas NIST curves emphasize "performance" at the cost of security), and "magic constants" in NaCl/Sodium have clear rationales.
+ The same cannot be said of NIST curves, where the specific origins of certain constants are not described by the standards.
+ And despite the emphasis on higher security, primitives are faster across-the-board than most implementations of the NIST standards.
+
+Package: libuv1
+Version: 1.34.2-1
+Depends: libc, libpthread, librt
+Provides: libuv
+License: MIT
+Section: libs
+CPE-ID: cpe:/a:libuv_project:libuv
+Architecture: mipsel_24kc
+Installed-Size: 52279
+Filename: libuv1_1.34.2-1_mipsel_24kc.ipk
+Size: 53161
+SHA256sum: e4fe360f7d27660b58b936e15025d8df18eb847bb8e9f65811a4b4bd2371f1dc
+Description:  libuv is a multi-platform support library with a focus on asynchronous I/O. It
+ was primarily developed for use by Node.js, but it's also used by Luvit, Julia,
+ pyuv, and others.
+
+Package: libwebsockets-full
+Version: 3.1.0-2
+Depends: libc, zlib, libcap, libopenssl1.1, libuv1
+Provides: libwebsockets
+License: LGPL-2.1+exception
+Section: libs
+Architecture: mipsel_24kc
+Installed-Size: 109967
+Filename: libwebsockets-full_3.1.0-2_mipsel_24kc.ipk
+Size: 110533
+SHA256sum: 92f8f9dfe95004c0de34d42ab884c022195cf3f545623abc5163da994a950e43
+Description:  libwebsockets (Full - OpenSSL, libuv, plugins, CGI)
+
+Package: lrzsz
+Version: 0.12.20-2
+Depends: libc
+License: GPL-2.0-or-later
+Section: utils
+Architecture: mipsel_24kc
+Installed-Size: 44501
+Filename: lrzsz_0.12.20-2_mipsel_24kc.ipk
+Size: 44951
+SHA256sum: 87d3121efb648a5b187888052281d5b47a91ba403414559ca10820ecbd5d38b2
+Description:  Transfer files in your login sessions.
+ Very leightweight and straight forward.
+ You just need a terminal client that can do
+ either X, Y or Z-modem file transfers.
+
+Package: miniupnpd
+Version: 2.1.20200510-5
+Depends: libc, iptables, libip4tc2, libip6tc2, ip6tables, libuuid1, libcap-ng
+License: BSD-3-Clause
+Section: net
+CPE-ID: cpe:/a:miniupnp_project:miniupnpd
+Architecture: mipsel_24kc
+Installed-Size: 56884
+Filename: miniupnpd_2.1.20200510-5_mipsel_24kc.ipk
+Size: 57784
+SHA256sum: 2c8c12dbcc2634a152058ef0c9a886eacd05af5dd77b6d4e0e745fbf5f3ca5d1
+Description:  Lightweight UPnP IGD, NAT-PMP & PCP daemon
+
+Package: mwan3
+Version: 2.9.0-1
+Depends: libc, ip, ipset, iptables, iptables-mod-conntrack-extra, iptables-mod-ipopt, jshn
+License: GPL-2.0
+Section: net
+Architecture: all
+Installed-Size: 16459
+Filename: mwan3_2.9.0-1_all.ipk
+Size: 17497
+SHA256sum: bfd07fd04319fbf1fd6652d23ace48d0c9a801357b297e03bf033fefae593c1e
+Description:  Hotplug script which makes configuration of multiple WAN interfaces simple
+ and manageable. With loadbalancing/failover support for up to 250 wan
+ interfaces, connection tracking and an easy to manage traffic ruleset.
+
+Package: nlbwmon
+Version: 2020-04-11.1-34a18876-3
+Depends: libc, libubox20191228, libnl-tiny, zlib, kmod-nf-conntrack-netlink
+License: ISC
+Section: net
+Architecture: mipsel_24kc
+Installed-Size: 16722
+Filename: nlbwmon_2020-04-11.1-34a18876-3_mipsel_24kc.ipk
+Size: 17570
+SHA256sum: 7ae22de3d0fa47618fc7c76ae5a97ecabdad00a64a43a1c6f4230e4a16031234
+Description:  OpenWrt Traffic Usage Monitor
+
+Package: ntfs-3g
+Version: 2017.3.23-3-fuseint
+Depends: libc, kmod-fuse, libpthread
+License: GPL-2.0-only LGPL-2.1-or-later
+Section: utils
+CPE-ID: cpe:/a:ntfs-3g:ntfs-3g
+Architecture: mipsel_24kc
+Installed-Size: 188055
+Filename: ntfs-3g_2017.3.23-3-fuseint_mipsel_24kc.ipk
+Size: 189288
+SHA256sum: 789a30e4b89e678e4c2b123899adb515528fae253ff30e37ed2bd00686a7c549
+Description:  Ntfs-3g is a NTFS driver, which can create, remove, rename,
+ move files, directories, hard links, and streams. It can read
+ and write files, including streams and sparse files. It can
+ handle special files like symbolic links, devices, and FIFOs.
+ Moreover it can also read transparently compressed files.
+ 
+ Contains:
+ - ntfs-3g
+ - ntfs-3g.probe
+ - mount.ntfs-3g (symlink to ntfs-3g)
+ 
+
+Package: openssh-sftp-client
+Version: 8.3p1-2
+Depends: libc, libopenssl1.1, zlib
+License: BSD ISC
+Section: net
+CPE-ID: cpe:/a:openssh:openssh
+Architecture: mipsel_24kc
+Installed-Size: 57693
+Filename: openssh-sftp-client_8.3p1-2_mipsel_24kc.ipk
+Size: 58583
+SHA256sum: cdab6aa9f688ea51b0ad0be4c4c7017e972195450a1600959a8164af8d9367a6
+Description:  OpenSSH SFTP client.
+
+Package: openssh-sftp-server
+Version: 8.3p1-2
+Depends: libc, libopenssl1.1, zlib
+License: BSD ISC
+Section: net
+CPE-ID: cpe:/a:openssh:openssh
+Architecture: mipsel_24kc
+Installed-Size: 42585
+Filename: openssh-sftp-server_8.3p1-2_mipsel_24kc.ipk
+Size: 43390
+SHA256sum: f18254ae08ec4cfd713f571eb318a1555d279b5bc9ada98d8322ca0d67df9024
+Description:  OpenSSH SFTP server.
+
+Package: shadowsocks-libev-config
+Version: 3.3.4-5
+Depends: libc
+License: GPL-3.0-or-later
+Section: net
+Architecture: mipsel_24kc
+Installed-Size: 2718
+Filename: shadowsocks-libev-config_3.3.4-5_mipsel_24kc.ipk
+Size: 3504
+SHA256sum: 1ca655741822e60a88895636c60fbd6d7ff98caff52ab57212c7399f229529ec
+Description:  shadowsocks-libev config scripts
+
+Package: shadowsocks-libev-ss-local
+Version: 3.3.4-5
+Depends: libc, libev, libmbedtls12, libpthread, libsodium, shadowsocks-libev-config, libpcre
+License: GPL-3.0-or-later
+Section: net
+Architecture: mipsel_24kc
+Installed-Size: 46951
+Filename: shadowsocks-libev-ss-local_3.3.4-5_mipsel_24kc.ipk
+Size: 47238
+SHA256sum: 4a77f9d55002ed144a32a487b89ef2ef0e146e8978f70e658f84100dcdba85a8
+Description:  shadowsocks-libev ss-local
+
+Package: shadowsocks-libev-ss-redir
+Version: 3.3.4-5
+Depends: libc, libev, libmbedtls12, libpthread, libsodium, shadowsocks-libev-config
+License: GPL-3.0-or-later
+Section: net
+Architecture: mipsel_24kc
+Installed-Size: 40643
+Filename: shadowsocks-libev-ss-redir_3.3.4-5_mipsel_24kc.ipk
+Size: 41298
+SHA256sum: 0b739bb00953b1889e779a28812fd7dd20345e5a4aeca0ad3da87a4349cd3c11
+Description:  shadowsocks-libev ss-redir
+
+Package: smartmontools
+Version: 7.1-3
+Depends: libc, uclibcxx
+License: GPL-2.0-or-later
+Section: utils
+Architecture: mipsel_24kc
+Installed-Size: 166487
+Filename: smartmontools_7.1-3_mipsel_24kc.ipk
+Size: 167345
+SHA256sum: 0697227fe38b140b993082d61756d2afeaf1d8712de6fdf7ef1462f47fe701b1
+Description:  smartmontools contains utility programs (smartctl) to
+ control/monitor storage systems using the Self-Monitoring, Analysis
+ and Reporting Technology System (S.M.A.R.T.) built into most modern
+ ATA and SCSI disks. It is derived from smartsuite.
+
+Package: ttyd
+Version: 1.6.1-3
+Depends: libc, libopenssl1.1, libjson-c5, libuv1, zlib, libwebsockets-full
+License: MIT
+Section: utils
+Architecture: mipsel_24kc
+Installed-Size: 208091
+Filename: ttyd_1.6.1-3_mipsel_24kc.ipk
+Size: 208834
+SHA256sum: 9ef0f4fa1299c1c8e8a5082617cca8dd7f8a032651f9086f3df3e9884018b9fb
+Description:  ttyd is a command-line tool for sharing terminal over the web.
+
+Package: unzip
+Version: 6.0-8
+Depends: libc
+License: BSD-4-Clause
+Section: utils
+CPE-ID: cpe:/a:info-zip:unzip
+Architecture: mipsel_24kc
+Installed-Size: 100477
+Filename: unzip_6.0-8_mipsel_24kc.ipk
+Size: 101477
+SHA256sum: 583a8c9a54973679d7e1c7eeab8b5ad5a60ef2eb8869459b4fa1f5e4bd3b5d6c
+Description:  InfoZIP's unzip program. With the exception of multi-volume archives
+ (ie, .ZIP files that are split across several disks using PKZIP's /& option),
+ this can handle any file produced either by PKZIP, or the corresponding
+ InfoZIP zip program.
+
+Package: vim-fuller
+Version: 8.2-2
+Depends: libc, libncurses6
+Section: utils
+CPE-ID: cpe:/a:vim:vim
+Architecture: mipsel_24kc
+Installed-Size: 2910655
+Filename: vim-fuller_8.2-2_mipsel_24kc.ipk
+Size: 2907319
+SHA256sum: 203caaa787f1ebba604328f62952e970a559e9b563506bcdf8a8b136ed3985ba
+Description:  Vim is an almost compatible version of the UNIX editor Vi.
+ (Big build)
+
+Package: wget
+Version: 1.20.3-4
+Depends: libc, libpcre, zlib, libopenssl1.1, librt
+Provides: gnu-wget, wget-ssl
+Alternatives: 300:/usr/bin/wget:/usr/bin/wget-ssl
+License: GPL-3.0-or-later
+Section: net
+CPE-ID: cpe:/a:gnu:wget
+Architecture: mipsel_24kc
+Installed-Size: 183516
+Filename: wget_1.20.3-4_mipsel_24kc.ipk
+Size: 184357
+SHA256sum: a903a2130630ba482e23b081cecac8fcd8b3572bccf1a98c4bb809e82aaa6bcf
+Description:  Wget is a network utility to retrieve files from the Web using http
+ and ftp, the two most widely used Internet protocols. It works
+ non-interactively, so it will work in the background, after having
+ logged off. The program supports recursive retrieval of web-authoring
+ pages as well as ftp sites -- you can use wget to make mirrors of
+ archives and home pages or to travel the Web like a WWW robot.
+ This package is built with SSL support.
+
+Package: zsh
+Version: 5.8-1
+Depends: libc, libcap, libncurses6, libncursesw6, libpcre, librt
+License: ZSH
+Section: utils
+CPE-ID: cpe:/a:zsh_project:zsh
+Architecture: mipsel_24kc
+Installed-Size: 1770788
+Filename: zsh_5.8-1_mipsel_24kc.ipk
+Size: 1770321
+SHA256sum: b51de71d7eadea7d721ead197bfb1579c9018770df7d009dcbcdcc36f6ad2524
+Description:  Zsh is a UNIX command interpreter (shell) usable as an interactive
+ login  shell  and  as a shell script command processor. Of the standard
+ shells, zsh most closely resembles ksh but includes many enhancements.
+ Zsh has command line editing, builtin spelling correction, programmable
+ command completion, shell functions (with autoloading), a history
+ mechanism, and a host of other features.
+
