@@ -201,6 +201,7 @@ jobs:
       run: |
         mv openwrt/.config openwrt/bin/targets/*/*
         cd openwrt/bin/targets/*/*
+        cp $OPENWRTROOT/.config config
         rm -rf packages
         rm -rf *uImage
         echo "::set-env name=FIRMWARE::$PWD"
